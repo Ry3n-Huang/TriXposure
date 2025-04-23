@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Exposure Triangle Quiz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+    ></script>
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    />
+    <style>
+
+        :root {
+            --primary-color: #4A90E2;
+            /* --primary-color: #409EA8; */
+            --secondary-color: #6C757D;
+            /* --secondary-color: #BFBFC1; */
+            --success-color: #28A745;
+            --danger-color: #DC3545;
+            --light-bg: #F8F9FA;
+            /* --light-bg: #EEF9F3; */
+            --dark-text: #2D3748;
+        }
+        
+        body {
+            background: #f0f2f5;
+            color: var(--dark-text);
+            line-height: 1.6;
+        }
+        nav {
+            background: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            /* font-family: 'Poppins', sans-serif; */
+            font-family: 'Noto Sans JP', serif;
+        }
+
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .nav-links a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            margin-left: 2rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .quiz-card {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: var(--secondary-color);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .image-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .feedback {
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+        }
+
+        .correct {
+            background: #e6fff2;
+            border: 2px solid var(--success-color);
+        }
+
+        .incorrect {
+            background: #fff0f0;
+            border: 2px solid var(--danger-color);
+        }
+
+        .subquestion {
+            background: var(--light-bg);
+            border-left: 4px solid var(--primary-color);
+            margin: 1.5rem 0;
+            padding: 1.5rem;
+        }
+
+        .was-validated .form-control:invalid {
+            border-color: #dc3545;
+        }
+
+        .was-validated .invalid-feedback {
+            display: block;
+        }
+
+        .was-validated .image-card:has(input:invalid) {
+            border-color: #dc3545;
+            animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        .image-card {
+            position: relative;
+            /* max-width: 400px; */
+            max-width: none !important;
+            margin: 0 auto;
+        }
+
+        .image-card img {
+            width: 100%;
+            /* height: 350px; */
+            height: auto;
+            object-fit: cover;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .image-label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 12px;
+            text-align: center;
+            border-radius: 0 0 8px 8px;
+        }
+
+        .image-container {
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* For mobile */
+        @media (max-width: 480px) {
+            .image-card img {
+                height: 200px;
+            }
+        }
+
+        .feedback {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .feedback-content {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .feedback-message {
+            margin: 0;
+            font-size: 1.1rem;
+        }
+
+        .feedback-actions {
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+
+        .btn-primary {
+            min-width: 150px;
+        }
+
+        .shutter-container {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .shutter-image {
+            display: block; 
+            margin: 0 auto;
+            width: 80%;
+            height: auto;
+            max-height: none !important;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .options-grid {
+            display: grid;
+            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        }
+
+        .option-card {
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .option-card:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+
+        .option-card input:checked + .option-content {
+            background: var(--light-bg);
+        }
+
+        .option-content {
+            padding: 1rem;
+        }
+
+        .speed-value {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .speed-description {
+            color: var(--secondary-color);
+            font-size: 0.9rem;
+        }
+
+        .btn-submit {
+            margin-top: 2rem;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+        }
+
+        .correct-answer {
+            color: var(--success-color);
+            font-weight: 500;
+            margin-top: 1rem;
+        }
+
+        .results-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .score-breakdown {
+            margin: 2rem 0;
+        }
+
+        .score-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .total-score {
+            display: flex;
+            justify-content: space-between;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            background: #e3f2fd;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        .score-label {
+            color: #4a5568;
+        }
+
+        .score-value {
+            color: #2d3748;
+            font-weight: 500;
+        }
+
+        .total-value {
+            color: #2b6cb0;
+        }
+
+        .current-score {
+            background: #e3f2fd;
+            padding: 0.8rem;
+            border-radius: 6px;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-weight: 500;
+            color: #2b6cb0;
+        }
+    </style>
+    
+    
+</head>
+<body>
+    <nav>
+        <div class="nav-brand">
+            <i class="fas fa-camera"></i> TriXposure
+        </div>
+        <div class="nav-links">
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('review') }}">Review</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        {% if show_results %}
+        <div class="results-card">
+            <h2>📊 Quiz Results</h2>
+            <div class="score-breakdown">
+                <div class="score-item">
+                    <span>Question 1 (ISO):</span>
+                    <span>{{ session.scores[0] }}/1</span>
+                </div>
+                <div class="score-item">
+                    <span>Question 2 (Shutter Speed):</span>
+                    <span>{{ session.scores[1] }}/1</span>
+                </div>
+                <div class="score-item">
+                    <span>Question 3 (Matching):</span>
+                    <span>{{ session.scores[2] }}/3</span>
+                </div>
+                <div class="total-score">
+                    <span>Total Score:</span>
+                    <span class="highlight">{{ session.score }}/5</span>
+                </div>
+            </div>
+            <!-- <div class="text-center">
+                <button onclick="location.href='/'" class="btn btn-primary">
+                    <i class="fas fa-redo"></i> Return to Home
+                </button>
+            </div> -->
+            <div class="feedback-actions">
+                <a href='/' class="btn btn-primary">
+                    <i class="fas fa-arrow-left"></i> Return to Home 
+                </a>
+            </div>
+        </div>
+        
+        {% else %}
+            {# If this is a quiz page, wrap the child content in a POST form #}
+            {% if q_num is defined %}
+            <form method="POST" action="{{ url_for('quiz', q_num=q_num) }}">
+            {% endif %}
+    
+            {% block content %}{% endblock %}
+    
+            {% if q_num is defined %}
+            </form>
+            {% endif %}
+        {% endif %}
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const forms = document.querySelectorAll('form');
+            forms.forEach(form => {
+                form.addEventListener('submit', (e) => {
+                    if (!form.checkValidity()) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        // Add shake animation to invalid elements
+                        const invalidElements = form.querySelectorAll(':invalid');
+                        invalidElements.forEach(el => {
+                            el.parentElement.style.animation = 'shake 0.5s';
+                        });
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        });
+    </script>
+</body>
+</html>
