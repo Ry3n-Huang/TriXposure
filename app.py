@@ -31,6 +31,10 @@ def review():
         return redirect(url_for('start_quiz'))
     return render_template('review.html')
 
+@app.route("/quiz")
+def quiz_home():
+    return render_template("quiz_home.html", active="quiz")
+
 @app.route('/start_quiz')
 def start_quiz():
     session.clear()
