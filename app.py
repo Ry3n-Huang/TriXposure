@@ -11,8 +11,31 @@ with open('static/data/questions.json', 'r', encoding='utf-8') as f:
 
 @app.route('/')
 def home():
-    session.clear()
-    return render_template('home.html')
+    return render_template('home_test.html')
+
+@app.route('/iso')
+def iso_page():
+    return render_template('iso.html')
+
+
+@app.route('/ss')
+def shutter_speed_page():
+    return render_template('ss.html')
+
+
+@app.route('/aperture')
+def aperture_page():
+    return render_template('aperture.html')
+
+
+@app.route('/simulator')
+def simulator_page():
+    return render_template('simulator.html')
+
+
+# @app.route('/quiz')
+# def quiz_page():
+#     return render_template('quiz.html')
 
 @app.route('/review', methods=['GET','POST'])
 def review():
