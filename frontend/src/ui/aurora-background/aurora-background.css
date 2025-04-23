@@ -1,0 +1,12 @@
+/* frontend/src/ui/aurora-background/aurora-background.css */
+
+/* 只保留你的背景 keyframes 和这个工具类 */
+@keyframes aurora {
+  0%   { background-position: 50% 50%; }
+  100% { background-position: 350% 50%; }
+}
+
+/* 给背景层加上这个类就会动 */
+.animate-aurora {
+  animation: aurora 60s linear infinite;
+}

@@ -1,23 +1,36 @@
-# app.py
-from flask import Flask, render_template, session
-from datetime import datetime
+from flask import Flask, render_template
 
 app = Flask(__name__)
-app.secret_key = "your-secret-key"
 
+# 首页
 @app.route('/')
 def home():
-    # initialize a user session or ID if you want
-    session.setdefault('user_id', datetime.utcnow().timestamp())
-    return render_template('home.html')
+    return render_template('home_test.html')
 
-@app.route('/start', methods=['POST'])
-def start():
-    # record when the user clicked “Start”
-    ts = datetime.utcnow().isoformat()
-    # e.g. write to a file or DB: (session['user_id'], 'start', ts)
-    print(f"USER {session['user_id']} STARTED LEARNING AT {ts}")
-    return '', 204
+# ISO 页面
+@app.route('/iso')
+def iso_page():
+    return render_template('iso.html')
+
+# Shutter Speed 页面
+@app.route('/ss')
+def shutter_speed_page():
+    return render_template('ss.html')
+
+# Aperture 页面
+@app.route('/aperture')
+def aperture_page():
+    return render_template('aperture.html')
+
+# Simulator 页面
+@app.route('/simulator')
+def simulator_page():
+    return render_template('simulator.html')
+
+# Quiz 页面
+@app.route('/quiz')
+def quiz_page():
+    return render_template('quiz.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
