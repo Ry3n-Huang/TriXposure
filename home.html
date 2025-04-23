@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Exposure Triangle Learning</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap CSS (for layout) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+
+  <style>
+    html, body { height: 100%; margin: 0; padding-top: 120px; }
+    .video-bg {
+      position: fixed;
+      top: -10%; left: -10%;
+      width: 120%; height: 120%;
+      pointer-events: none;
+      z-index: -1;
+      transform: scale(1.2);
+      transform-origin: center;
+    }
+
+    .content {
+      position: relative;
+      z-index: 1;
+      color: white;
+      text-align: center;
+    }
+    .content h1, .content p {
+      margin: 0.5rem 0;
+    }
+    /* Top Navbar styles with slider */
+    .custom-navbar {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      z-index: 10;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 0.5rem 0;
+      display: flex;
+      justify-content: center;
+    }
+    .custom-nav-list {
+      position: relative;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      gap: 2rem;
+    }
+    .custom-nav-list li a {
+      display: block;
+      color: white;
+      text-decoration: none;
+      text-transform: uppercase;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      transition: color 0.2s;
+      white-space: nowrap;
+    }
+    .custom-nav-list li a:hover {
+      color: #ddd;
+    }
+    .nav-slider {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.5);
+      transition: left 0.3s ease, width 0.3s ease;
+      opacity: 0;
+    }
+    .custom-nav-list:hover .nav-slider {
+      opacity: 1;
+    }
+    /* Floating Dock hover effect */
+    .dock-item {
+      transition: transform 0.2s ease;
+      transform-origin: center;
+    }
+    .dock-item:hover {
+      transform: scale(1.3) translateY(-5px);
+    }
+  </style>
+</head>
+<body>
+  <!-- Video background -->
+  <iframe
+  class="video-bg"
+  src="https://www.youtube.com/embed/R_QhwOWZ98I?autoplay=1&mute=1&controls=0&loop=1&playlist=R_QhwOWZ98I&start=160&cc_load_policy=0&vq=hd2160"
+  frameborder="0"
+  allow="autoplay; fullscreen"
+  allowfullscreen>
+  </iframe>
+
+
+  <!-- Custom Top Navbar -->
+  <nav class="custom-navbar">
+    <ul class="custom-nav-list">
+      <li><a href="/learn/1">ISO</a></li>
+      <li><a href="/learn/2">Shutter Speed</a></li>
+      <li><a href="/learn/3">Aperture</a></li>
+      <li><a href="/simulate">Simulator</a></li>
+      <li><a href="/quiz/1">Quiz</a></li>
+      <div class="nav-slider"></div>
+    </ul>
+  </nav>
+
+  <!-- Floating Dock mount point -->
+  <div id="dock-root"></div>
+
+  <!-- Main Content -->
+  <div class="container content">
+    <h1>Welcome – Get Familiar with the Exposure Triangle</h1>
+    <p>Great photos begin with the right exposure. Use the dock at the bottom-right to navigate.</p>
+  </div>
+
+  <!-- React + Custom FloatingDock + Navbar slider JS -->
+  <script type="module">
+    import * as React from 'https://esm.sh/react';
+    import { createRoot } from 'https://esm.sh/react-dom/client';
+    import {
+      IconHome,
+      IconTerminal2,
+      IconNewSection,
+      IconExchange,
+      IconBrandX,
+      IconBrandGithub
+    } from 'https://esm.sh/@tabler/icons-react';
+
+    // Navbar slider logic
+    document.addEventListener('DOMContentLoaded', () => {
+      const navList = document.querySelector('.custom-nav-list');
+      const slider = navList.querySelector('.nav-slider');
+      const items = Array.from(navList.querySelectorAll('li'));
+
+      // Position slider under hovered item
+      items.forEach(item => {
+        item.addEventListener('mouseenter', () => {
+          const rect = item.getBoundingClientRect();
+          const containerRect = navList.getBoundingClientRect();
+          slider.style.width = rect.width + 'px';
+          slider.style.left = (rect.left - containerRect.left) + 'px';
+        });
+      });
+
+      // Hide slider when mouse leaves navbar
+      navList.addEventListener('mouseleave', () => {
+        slider.style.opacity = '0';
+      });
+      // Show slider when mouse enters navbar
+      navList.addEventListener('mouseenter', () => {
+        slider.style.opacity = '1';
+      });
+    });
+
+    // Floating Dock
+    const links = [
+      { title: 'Home',      icon: React.createElement(IconHome,      { size: 24, stroke: 1.5, color: 'white' }), href: '/learn/1'   },
+      { title: 'Products',  icon: React.createElement(IconTerminal2, { size: 24, stroke: 1.5, color: 'white' }), href: '/learn/2'   },
+      { title: 'Components',icon: React.createElement(IconNewSection, { size: 24, stroke: 1.5, color: 'white' }), href: '/learn/3'   },
+      { title: 'Simulator', icon: React.createElement(IconExchange,    { size: 24, stroke: 1.5, color: 'white' }), href: '/simulate'  },
+      { title: 'Quiz',      icon: React.createElement(IconBrandX,      { size: 24, stroke: 1.5, color: 'white' }), href: '/quiz/1'     },
+      { title: 'GitHub',    icon: React.createElement(IconBrandGithub,{ size: 24, stroke: 1.5, color: 'white' }), href: 'https://github.com' }
+    ];
+    function FloatingDock({ items }) {
+      return React.createElement('div', {
+        style: {
+          position: 'fixed', bottom: '1rem', right: '1rem',
+          display: 'flex', flexDirection: 'column', gap: '0.5rem',
+          zIndex: 20
+        }
+      }, items.map((item, idx) =>
+        React.createElement('a', { className: 'dock-item',
+          key: item.title,
+          href: item.href,
+          title: item.title,
+          style: {
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            width: '3rem', height: '3rem', background: 'rgba(0,0,0,0.6)',
+            borderRadius: '0.5rem', color: 'white', textDecoration: 'none'
+          },
+          target: item.href.startsWith('http') ? '_blank' : '_self'
+        }, item.icon)
+      ));
+    }
+    function DemoDock() {
+      return React.createElement(FloatingDock, { items: links });
+    }
+    const dockRoot = createRoot(document.getElementById('dock-root'));
+    dockRoot.render(React.createElement(DemoDock));
+  </script>
+</body>
+</html>
