@@ -1,0 +1,47 @@
+{% extends "quiz_base.html" %}
+{% block content %}
+<div class="quiz-card">
+
+  <h2 class="fw-bold mb-4">Quiz: Test your Exposure Triangle Skills</h2>
+
+  <p class="lead mb-4">
+    Before you jump in, you can skim the key concepts or dive straight into the questions:
+  </p>
+
+  <div class="d-flex justify-content-center gap-3 mb-5 topic-strip">
+    <!-- <a href="{{ url_for('review') }}"      class="btn btn-outline-primary flex-grow-1 flex-md-grow-0">
+        <i class="fas fa-book-open"></i> Exposure Triangle
+    </a> -->
+    <button class="btn btn-outline-secondary topic-btn" disabled>ISO</button>
+    <button class="btn btn-outline-secondary topic-btn" disabled>Shutter&nbsp;Speed</button>
+    <button class="btn btn-outline-secondary topic-btn" disabled>Aperture</button>
+  </div>
+
+  <!-- bottom CTAs -->
+  <div class="d-flex flex-column flex-md-row justify-content-center gap-3">
+
+    <a href="/review" class="btn btn-secondary">
+        <i class="fas fa-book-open"></i> Review Basics
+    </a>
+    <a href="/start_quiz" class="btn btn-primary">
+        <i class="fas fa-play"></i> Start Quiz
+    </a>
+  </div>
+
+</div>
+
+<style>
+  .quiz-card{
+    background:#fff;
+    border-radius:1rem;
+    padding:2.5rem 3rem;
+    box-shadow:0 4px 12px rgba(0,0,0,.06);
+  }
+  @media (max-width:576px){
+    .quiz-card{padding:2rem}
+  }
+</style>
+{% endblock %}
+
+
+

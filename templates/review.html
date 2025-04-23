@@ -1,0 +1,138 @@
+{% extends "quiz_base.html" %}
+{% block content %}
+<div class="container review-container">
+    <h2 class="review-title">📚 Quick Review Guide</h2>
+
+    <div class="review-card">
+        <div class="review-header">
+            <i class="fas fa-sun icon-accent"></i>
+            <h3>ISO – Light Sensitivity</h3>
+        </div>
+        <ul class="review-list">
+            <li><span class="highlight">Lower ISO (e.g. 100):</span> Cleaner image, needs more light</li>
+            <li><span class="highlight">Higher ISO (e.g. 800+):</span> Works in low light, adds noise</li>
+        </ul>
+        <div class="review-tip">
+            <i class="fas fa-lightbulb"></i>
+            <em> Tip:</em> Always start with the lowest ISO that gives enough brightness
+        </div>
+    </div>
+
+    <div class="review-card">
+        <div class="review-header">
+            <i class="fas fa-running icon-accent"></i>
+            <h3>Shutter Speed – Motion Control</h3>
+        </div>
+        <ul class="review-list">
+            <li><span class="highlight">Fast (1/1000s):</span> Freezes action (sports/wildlife)</li>
+            <li><span class="highlight">Slow (1/30s+):</span> Creates motion blur (light trails)</li>
+        </ul>
+    </div>
+
+    <div class="review-card">
+        <div class="review-header">
+            <i class="fas fa-camera icon-accent"></i>
+            <h3>Aperture – Depth & Light</h3>
+        </div>
+        <ul class="review-list">
+            <li><span class="highlight">Wide (f/1.8):</span> Bright + Blurry background (portraits)</li>
+            <li><span class="highlight">Narrow (f/11):</span> Darker + Full focus (landscapes)</li>
+        </ul>
+    </div>
+
+    
+
+    <div class="d-flex justify-content-center align-items-center mt-4">
+        <a href="{{ url_for('quiz_home') }}" class="btn btn-primary me-3">
+          <i class="fas fa-arrow-left"></i>
+          Back to Quiz Dashboard
+        </a>
+    
+        <form method="POST" class="mb-0">
+          <button type="submit" class="btn btn-success">
+            <i class="fas fa-check"></i>
+            Mark as Read &amp; Start Quiz
+          </button>
+        </form>
+    </div>
+</div>
+
+<style>
+    .review-container {
+        padding: 2rem;
+        margin: 1rem auto;
+        background: #ffffff;
+        border-radius: 16px;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+        max-width: 800px;
+    }
+
+    .review-title {
+        color: #2c3e50;
+        text-align: center;
+        margin-bottom: 2rem;
+        font-size: 2.2rem;
+    }
+
+    .review-card {
+        background: #f8f9fa;
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin: 1.5rem 0;
+        border-left: 4px solid #4A90E2;
+        transition: transform 0.3s ease;
+    }
+
+    .review-card:hover {
+        transform: translateY(-3px);
+    }
+
+    .review-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1.2rem;
+    }
+
+    .review-header h3 {
+        color: #2c3e50;
+        margin: 0;
+    }
+
+    .icon-accent {
+        color: #4A90E2;
+        font-size: 1.8rem;
+    }
+
+    .review-list {
+        padding-left: 2rem;
+        margin: 1rem 0;
+    }
+
+    .highlight {
+        color: #4A90E2;
+        font-weight: 500;
+    }
+
+    .review-tip {
+        background: #e3f2fd;
+        padding: 1rem;
+        border-radius: 8px;
+        margin-top: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+    }
+
+    @media (max-width: 768px) {
+        .review-container {
+            margin: 1rem;
+            padding: 1rem;
+        }
+        
+        .review-title {
+            font-size: 1.8rem;
+        }
+    }
+</style>
+{% endblock %}
