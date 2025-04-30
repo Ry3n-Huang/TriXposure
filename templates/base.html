@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>{% block title %}{% endblock %}</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;700&family=Roboto:wght@300;500&display=swap" rel="stylesheet"/>
+
+  <!-- AuroraBackground CSS (built asset) -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='react/assets/index-CqLd8W_5.css') }}"/>
+
+  <style>
+    /* ── Navbar & slider (fixed) ───────────────────────────────────────────────── */
+    .custom-navbar {
+      position: fixed; top: 0; left: 0;
+      width: 100%; z-index: 10;
+      background: rgba(255,255,255,0.6);
+      padding: 0.5rem 0;
+      display: flex; justify-content: center;
+    }
+    .custom-nav-list {
+      position: relative; list-style: none;
+      margin: 0; padding: 0;
+      display: flex; gap: 2rem;
+    }
+    .custom-nav-list li a {
+      display: block; color: #000; text-decoration: none;
+      text-transform: uppercase; font-weight: 500;
+      padding: 0.5rem 1rem; transition: color 0.2s;
+      white-space: nowrap; font-family: 'Roboto', sans-serif;
+    }
+    .custom-nav-list li a:hover { color: #333; }
+    .nav-slider {
+      position: absolute; bottom: 0; left: 0;
+      height: 4px; background: rgba(0,0,0,0.5);
+      transition: left 0.3s ease, width 0.3s ease; opacity: 0;
+    }
+    .custom-nav-list:hover .nav-slider { opacity: 1; }
+
+    /* ── AuroraBackground root, start 4px below navbar ─────────────────────── */
+    #root {
+      margin-top: 4px;
+      height: calc(100vh - 4px);
+    }
+
+    /* ── Centered overlay content ───────────────────────────────────────────── */
+    #content {
+      position: fixed; top: 4px; left: 0;
+      width: 100%; height: calc(100vh - 4px);
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; z-index: 1;
+      font-family: 'Montserrat', sans-serif; color: #000; text-align: center;
+      padding: 0 1rem;
+    }
+    #content h1 {
+      font-size: 4rem; font-weight: 700; margin-bottom: 1rem;
+    }
+    #content p.subtitle {
+      font-size: 1.25rem; font-weight: 300; margin-bottom: 2rem;
+    }
+    .bullets {
+      display: flex; gap: 2rem; flex-wrap: wrap; justify-content: center;
+      max-width: 800px; margin-bottom: 2rem;
+    }
+    .bullets ul {
+      list-style: disc; padding-left: 1.5rem; text-align: left;
+      font-size: 1rem; font-weight: 300;
+    }
+    .btn-action {
+      display: inline-block; padding: 0.5rem 1rem;
+      background: #000; color: #fff; text-decoration: none;
+      border-radius: 4px; font-family: 'Roboto', sans-serif;
+      font-weight: 500; transition: background 0.2s; margin: 0 0.5rem;
+    }
+    .btn-action:hover { background: #333; }
+  </style>
+
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="custom-navbar">
+    <ul class="custom-nav-list">
+      <li><a href="{{ url_for('home') }}">Home</a></li>
+      <li><a href="{{ url_for('iso_page') }}">ISO</a></li>
+      <li><a href="{{ url_for('shutter_speed_page') }}">Shutter Speed</a></li>
+      <li><a href="{{ url_for('aperture_page') }}">Aperture</a></li>
+      <li><a href="{{ url_for('simulator_page') }}">Simulator</a></li>
+      <li><a href="{{ url_for('quiz_home') }}">Quiz</a></li>
+      <div class="nav-slider"></div>
+    </ul>
+  </nav>
+
+  <!-- AuroraBackground -->
+  <div id="root"></div>
+
+  <!-- Overlay content -->
+  <div id="content">
+    {% block content %}{% endblock %}
+    <div>
+      {% block nav_buttons %}{% endblock %}
+    </div>
+  </div>
+
+  <!-- Navbar slider JS -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const navList = document.querySelector('.custom-nav-list');
+      const slider = navList.querySelector('.nav-slider');
+      const items = Array.from(navList.querySelectorAll('li'));
+      items.forEach(item => {
+        item.addEventListener('mouseenter', () => {
+          const r = item.getBoundingClientRect(), cr = navList.getBoundingClientRect();
+          slider.style.width = r.width + 'px';
+          slider.style.left = (r.left - cr.left) + 'px';
+        });
+      });
+      navList.addEventListener('mouseenter', () => slider.style.opacity = '1');
+      navList.addEventListener('mouseleave', () => slider.style.opacity = '0');
+    });
+  </script>
+
+  <!-- AuroraBackground JS -->
+  <script type="module" src="{{ url_for('static', filename='react/assets/index-DKhudlPX.js') }}"></script>
+</body>
+</html>
