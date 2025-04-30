@@ -4,14 +4,38 @@
 {% block title %}ISO – Controlling Light Sensitivity{% endblock %}
 
 {% block extra_head %}
-  {# 如果需要在本页添加额外的 CSS 或 JS，可写在这里 #}
+
+
 {% endblock %}
+
 
 {% block content %}
 <h1>ISO – Controlling Light Sensitivity</h1>
-<p class="subtitle">
-  ISO controls how sensitive your camera sensor is to light.<br><br>
+<p class="subtitle" style="margin-bottom: 0;">
+  ISO controls how sensitive your camera sensor is to light.
 </p>
+<!-- <div class="iso-image" style="text-align: center; margin: 0.0rem 0;">
+  <img
+    src="{{ url_for('static', filename='images/iso.png') }}"
+    alt="ISO 示意图"
+    style="width: 600px; height: auto;"
+  >
+</div> -->
+<div class="iso-image">
+  <a
+    href="#"
+    class="modal-trigger"
+    data-img-url="{{ url_for('static', filename='images/iso.png') }}"
+    title="点击查看原图"
+  >
+    <img
+      src="{{ url_for('static', filename='images/iso.png') }}"
+      alt="ISO 示意图"
+      style="width: 600px; height: auto;"
+    >
+  </a>
+</div>
+
 
 <div class="bullets">
   <ul class="horizontal-list">
@@ -25,9 +49,24 @@
   <p style="font-size: 1.5rem; font-style: italic; font-weight: 400;">
     ***Tip: Always try lowest ISO possible for cleanest result.***<br></br>
   </p>
-  <p class="subtitle">
-    Click on a scene to see how ISO affects your photo and which setting works best.
+  <p class="subtitle" style="margin-bottom: 0;">
+    Click on a scene to see how ISO affects your photo:
   </p>
+</div>
+<!-- 跳转链接 -->
+<div style="text-align:center; margin-top:1rem;">
+  <a href="#" class="modal-trigger btn-action" data-img-url="{{ url_for('static', filename='images/bright_sunny.jpeg') }}">
+    Bright Outdoor (Sunny Day)
+  </a>
+  &nbsp;|&nbsp;
+  <a href="#" class="modal-trigger btn-action" data-img-url="{{ url_for('static', filename='images/night_portrait.jpg') }}">
+    Night Outdoor Portrait
+  </a>
+</div>
+
+<!-- Modal 结构 -->
+<div id="imageModal" class="modal-overlay">
+  <img src="" alt="" class="modal-content">
 </div>
 
 {% endblock %}

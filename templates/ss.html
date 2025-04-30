@@ -9,19 +9,69 @@
 
 {% block content %}
   <h1>Shutter Speed – Freezing or Blurring Motion</h1>
-  <p class="subtitle">Fast Shutter (1/1000s to 1/4000s):</p>
-  <div class="bullets">
-    <ul>
-      <li>Freezes motion.</li>
-      <li>Great for taking sports photos.</li>
-    </ul>
-    <ul>
-      <li>Creates motion blur or light trails.</li>
-      <li>Affects brightness: slower shutter = brighter photo.</li>
-      <li>Useful for night scenes, waterfalls, or creative motion blur.</li>
-    </ul>
+  <div class="ss-image">
+    <a
+      href="#"
+      class="modal-trigger"
+      data-img-url="{{ url_for('static', filename='images/ss.png') }}"
+      title="点击查看原图"
+    >
+      <img
+        src="{{ url_for('static', filename='images/ss.png') }}"
+        alt="ss 示意图"
+        style="width: 600px; height: auto;"
+      >
+    </a>
+  </div>
+  
+
+  <div class="shutter-bullets">
+    <!-- 左侧：Fast Shutter -->
+    <div class="bullet-section">
+      <p class="subtitle">Fast Shutter (1/1000s to 1/4000s):</p>
+      <ul>
+        <li>Freezes motion.</li>
+        <li>Great for taking sports photos.</li>
+      </ul>
+    </div>
+
+    <!-- 右侧：Slow Shutter -->
+    <div class="bullet-section">
+      <p class="subtitle">Slow Shutter (1/30s to several seconds):</p>
+      <ul>
+        <li>Creates motion blur or light trails.</li>
+        <li>Affects brightness: slower shutter = brighter photo.</li>
+        <li>Useful for night scenes, waterfalls, or creative motion blur.</li>
+      </ul>
+    </div>
+  </div>
+  <div style="text-align: center; max-width: 800px; margin: 0 auto;">
+    <p class="subtitle">
+      Click on a scene to see how S.S. affects your photo:
+    </p>
+  </div>
+  <!-- 跳转链接 -->
+  <div style="text-align:center; margin-top:1rem;">
+    <a href="#" class="modal-trigger btn-action" data-img-url="{{ url_for('static', filename='images/toy_car.jpg') }}">
+      Toy Car
+    </a>
+    &nbsp;|&nbsp;
+    <a href="#" class="modal-trigger btn-action" data-img-url="{{ url_for('static', filename='images/night_traffic.jpg') }}">
+      Night Traffic
+    </a>
+  </div>
+
+  <!-- Modal 结构 -->
+  <div id="imageModal" class="modal-overlay">
+    <img src="" alt="" class="modal-content">
+  </div>
+  
+  <!-- Modal 结构 -->
+  <div id="imageModal" class="modal-overlay">
+    <img src="" alt="" class="modal-content">
   </div>
 {% endblock %}
+
 
 {% block nav_buttons %}
   <a href="{{ url_for('iso_page') }}" class="side-nav side-nav-left">
