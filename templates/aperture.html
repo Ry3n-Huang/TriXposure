@@ -1,140 +1,69 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Aperture – Depth and Light in One Setting</title>
+{# templates/aperture.html #}
+{% extends 'base.html' %}
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;700&family=Roboto:wght@300;500&display=swap" rel="stylesheet"/>
+{% block title %}Aperture – Depth and Light in One Setting{% endblock %}
 
-  <!-- AuroraBackground CSS (built asset) -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='react/assets/index-CqLd8W_5.css') }}"/>
+{% block extra_head %}
+  {# 若本页需要额外的 CSS/JS，可放在这里 #}
+{% endblock %}
 
-  <style>
-    /* ── Navbar & slider (fixed) ───────────────────────────────────────────────── */
-    .custom-navbar {
-      position: fixed; top: 0; left: 0;
-      width: 100%; z-index: 10;
-      background: rgba(255,255,255,0.6);
-      padding: 0.5rem 0;
-      display: flex; justify-content: center;
-    }
-    .custom-nav-list {
-      position: relative; list-style: none;
-      margin: 0; padding: 0;
-      display: flex; gap: 2rem;
-    }
-    .custom-nav-list li a {
-      display: block; color: #000; text-decoration: none;
-      text-transform: uppercase; font-weight: 500;
-      padding: 0.5rem 1rem; transition: color 0.2s;
-      white-space: nowrap; font-family: 'Roboto', sans-serif;
-    }
-    .custom-nav-list li a:hover { color: #333; }
-    .nav-slider {
-      position: absolute; bottom: 0; left: 0;
-      height: 4px; background: rgba(0,0,0,0.5);
-      transition: left 0.3s ease, width 0.3s ease; opacity: 0;
-    }
-    .custom-nav-list:hover .nav-slider { opacity: 1; }
-
-    /* ── AuroraBackground root, start 4px below navbar ─────────────────────── */
-    #root {
-      margin-top: 4px;
-      height: calc(100vh - 4px);
-    }
-
-    /* ── Centered overlay content ───────────────────────────────────────────── */
-    #content {
-      position: fixed; top: 4px; left: 0;
-      width: 100%; height: calc(100vh - 4px);
-      display: flex; align-items: center; justify-content: center;
-      flex-direction: column; z-index: 1;
-      font-family: 'Montserrat', sans-serif; color: #000; text-align: center;
-      padding: 0 1rem;
-    }
-    #content h1 {
-      font-size: 4rem; font-weight: 700; margin-bottom: 1rem;
-    }
-    #content p.subtitle {
-      font-size: 1.25rem; font-weight: 300; margin-bottom: 2rem;
-    }
-    .bullets {
-      display: flex; gap: 2rem; flex-wrap: wrap; justify-content: center;
-      max-width: 800px; margin-bottom: 2rem;
-    }
-    .bullets ul {
-      list-style: disc; padding-left: 1.5rem; text-align: left;
-      font-size: 1rem; font-weight: 300;
-    }
-    .btn-action {
-      display: inline-block; padding: 0.5rem 1rem;
-      background: #000; color: #fff; text-decoration: none;
-      border-radius: 4px; font-family: 'Roboto', sans-serif;
-      font-weight: 500; transition: background 0.2s; margin: 0 0.5rem;
-    }
-    .btn-action:hover { background: #333; }
-  </style>
-</head>
-<body>
-  <!-- Navbar -->
-  <nav class="custom-navbar">
-    <ul class="custom-nav-list">
-      <li><a href="{{ url_for('home') }}">Home</a></li>
-      <li><a href="{{ url_for('iso_page') }}">ISO</a></li>
-      <li><a href="{{ url_for('shutter_speed_page') }}">Shutter Speed</a></li>
-      <li><a href="{{ url_for('aperture_page') }}">Aperture</a></li>
-      <li><a href="{{ url_for('simulator_page') }}">Simulator</a></li>
-      <li><a href="{{ url_for('quiz_home') }}">Quiz</a></li>
-      <div class="nav-slider"></div>
-    </ul>
-  </nav>
-
-  <!-- AuroraBackground -->
-  <div id="root"></div>
-
-  <!-- Overlay content -->
-  <div id="content">
-    <h1>Aperture – Depth and Light in One Setting</h1>
-    <p class="subtitle">
-      Aperture controls the size of the opening in your lens, affecting:
-    </p>
-    <div class="bullets">
-      <ul>
-        <li>A wider aperture (like f/1.8) lets in more light.</li>
-        <li>Smaller aperture (like f/16) reduces light.</li>
-      </ul>
-      <ul>
-        <li>Wider aperture = shallow depth of field (portraits).</li>
-        <li>Smaller aperture = greater depth of field (landscapes).</li>
-      </ul>
-    </div>
-    <div>
-      <a href="{{ url_for('shutter_speed_page') }}" class="btn-action">Back</a>
-      <a href="{{ url_for('simulator_page') }}" class="btn-action">Next</a>
-    </div>
+{% block content %}
+  <h1>Aperture – Depth and Light in One Setting</h1>
+  <p class="subtitle">
+    Aperture controls the size of the opening in your lens, affecting:
+  </p>
+  <div class="aperture-image">
+    <a
+      href="#"
+      class="modal-trigger"
+      data-img-url="{{ url_for('static', filename='images/depth of field.png') }}"
+      title="点击查看原图"
+    >
+      <img
+        src="{{ url_for('static', filename='images/depth of field.png') }}"
+        alt="ss 示意图"
+        style="width: 600px; height: auto;"
+      >
+    </a>
   </div>
+  <div class="bullets">
+    <ul>
+      <li>A wider aperture (like f/1.8) lets in more light.</li>
+      <li>Smaller aperture (like f/16) reduces light.</li>
+    </ul>
+    <ul>
+      <li>Wider aperture = shallow depth of field (portraits).</li>
+      <li>Smaller aperture = greater depth of field (landscapes).</li>
+    </ul>
+  </div>
+  <div style="text-align: center; max-width: 800px; margin: 0 auto;">
+    <p class="subtitle">
+      Click on a scene to see how Aperture affects your photo:
+    </p>
+  </div>
+  
+  <!-- 跳转链接 -->
+<div style="text-align:center; margin-top:1rem;">
+  <a href="#" class="modal-trigger btn-action" data-img-url="{{ url_for('static', filename='images/aperture.jpg') }}">
+    Portraits
+  </a>
 
-  <!-- Navbar slider JS -->
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const navList = document.querySelector('.custom-nav-list');
-      const slider = navList.querySelector('.nav-slider');
-      const items = Array.from(navList.querySelectorAll('li'));
-      items.forEach(item => {
-        item.addEventListener('mouseenter', () => {
-          const r = item.getBoundingClientRect(), cr = navList.getBoundingClientRect();
-          slider.style.width = r.width + 'px';
-          slider.style.left = (r.left - cr.left) + 'px';
-        });
-      });
-      navList.addEventListener('mouseenter', () => slider.style.opacity = '1');
-      navList.addEventListener('mouseleave', () => slider.style.opacity = '0');
-    });
-  </script>
+</div>
 
-  <!-- AuroraBackground JS -->
-  <script type="module" src="{{ url_for('static', filename='react/assets/index-DKhudlPX.js') }}"></script>
-</body>
-</html>
+<!-- Modal 结构 -->
+<div id="imageModal" class="modal-overlay">
+  <img src="" alt="" class="modal-content">
+</div>
+
+{% endblock %}
+
+{% block nav_buttons %}
+  <a href="{{ url_for('shutter_speed_page') }}" class="side-nav side-nav-left">
+    <span class="arrow">&lt;</span>
+  </a>
+  <a href="{{ url_for('simulator_page') }}" class="side-nav side-nav-right">
+    <span class="arrow">&gt;</span>
+  </a>
+{% endblock %}
+
+

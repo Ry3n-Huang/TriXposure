@@ -23,6 +23,10 @@
   ></script>
 
   <style>
+    html {
+      color-scheme: light dark;
+    }
+    
     body {
     font-family: 'Roboto', sans-serif;
     }
@@ -394,6 +398,43 @@
     color: var(--dark-text);
     }
 
+    /* ── DARK MODE OVERRIDES ────────────────────────────────────── */
+    @media (prefers-color-scheme: dark) {
+      /* make all primary text white */
+      body, #content {
+        color: #fff;
+      }
+      /* navbar background darker */
+      .custom-navbar {
+        background: rgba(0,0,0,0.6);
+      }
+      /* nav links white */
+      .custom-nav-list li a {
+        color: #fff;
+      }
+      .custom-nav-list li a:hover {
+        color: #ccc;
+      }
+      /* slider reversed to light */
+      .nav-slider {
+        background: rgba(255,255,255,0.5);
+      }
+      /* buttons inverted */
+      .btn-action,
+      .btn-primary {
+        background: #fff;
+        color: #000 !important;
+      }
+      .btn-action:hover,
+      .btn-primary:hover {
+        background: #ddd;
+      }
+      /* if you have any white-background cards, you’ll probably want to darken them here */
+      .feedback-card,
+      .overlay-container {
+        background: rgba(0,0,0,0.7);
+      }
+    }
 
   </style>
 </head>
