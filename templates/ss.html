@@ -24,6 +24,10 @@
 {% endblock %}
 
 {% block nav_buttons %}
-  <a href="{{ url_for('iso_page') }}" class="btn-action">Back</a>
-  <a href="{{ url_for('aperture_page') }}" class="btn-action">Next</a>
+  <a href="{{ url_for('iso_page') }}" class="side-nav side-nav-left">
+    <span class="arrow">&lt;</span>
+  </a>
+  <a href="{{ url_for('aperture_page') }}" class="side-nav side-nav-right">
+    <span class="arrow">&gt;</span>
+  </a>
 {% endblock %}

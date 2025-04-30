@@ -10,13 +10,24 @@
 {% block content %}
   <h1>ISO – Controlling Light Sensitivity</h1>
   <p class="subtitle">
-    ISO controls how sensitive your camera sensor is to light.<br>
-    Lower ISO = cleaner image but needs more light.<br>
-    Higher ISO = works in low light but adds noise (graininess).
+    ISO controls how sensitive your camera sensor is to light.<br><br>
+    <!-- <li>Lower ISO = cleaner image but needs more light.<br><br></li>
+    <li>Higher ISO = works in low light but adds noise (graininess).</li> -->
   </p>
+  <div class = "bullets">
+    <ul>
+      <li>Lower ISO = cleaner image but needs more light.</li>
+      <li>Higher ISO = works in low light but adds noise (graininess).</li>
+    </ul>
+  </div>
+  
 {% endblock %}
 
 {% block nav_buttons %}
-  <a href="{{ url_for('home') }}" class="btn-action">Back to Home</a>
-  <a href="{{ url_for('shutter_speed_page') }}" class="btn-action">Next</a>
+  <a href="{{ url_for('home') }}" class="side-nav side-nav-left">
+    <span class="arrow">&lt;</span>
+  </a>
+  <a href="{{ url_for('shutter_speed_page') }}" class="side-nav side-nav-right">
+    <span class="arrow">&gt;</span>
+  </a>
 {% endblock %}
