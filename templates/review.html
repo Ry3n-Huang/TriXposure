@@ -1,138 +1,135 @@
 {% extends "quiz_base.html" %}
 {% block content %}
-<div class="container review-container">
-    <h2 class="review-title">📚 Quick Review Guide</h2>
+<div class="review-page">
+  <h2 class="review-title"><i class="fas fa-book-open me-2"></i>Quick Review Guide</h2>
 
+  <div class="review-cards">
     <div class="review-card">
-        <div class="review-header">
-            <i class="fas fa-sun icon-accent"></i>
-            <h3>ISO – Light Sensitivity</h3>
-        </div>
-        <ul class="review-list">
-            <li><span class="highlight">Lower ISO (e.g. 100):</span> Cleaner image, needs more light</li>
-            <li><span class="highlight">Higher ISO (e.g. 800+):</span> Works in low light, adds noise</li>
-        </ul>
-        <div class="review-tip">
-            <i class="fas fa-lightbulb"></i>
-            <em> Tip:</em> Always start with the lowest ISO that gives enough brightness
-        </div>
+      <div class="review-icon"><i class="fas fa-camera-retro"></i></div>
+      <h3>ISO – Light Sensitivity</h3>
+      <p><span class="highlight">Lower ISO (100):</span> Cleaner image, needs more light</p>
+      <p><span class="highlight">Higher ISO (800+):</span> Works in low light, adds noise</p>
+      <div class="review-tip">
+        <i class="fas fa-lightbulb"></i>
+        Always start with the lowest ISO that gives enough brightness.
+      </div>
     </div>
 
     <div class="review-card">
-        <div class="review-header">
-            <i class="fas fa-running icon-accent"></i>
-            <h3>Shutter Speed – Motion Control</h3>
-        </div>
-        <ul class="review-list">
-            <li><span class="highlight">Fast (1/1000s):</span> Freezes action (sports/wildlife)</li>
-            <li><span class="highlight">Slow (1/30s+):</span> Creates motion blur (light trails)</li>
-        </ul>
+      <div class="review-icon"><i class="fas fa-running"></i></div>
+      <h3>Shutter Speed – Motion Control</h3>
+      <p><span class="highlight">Fast (1/1000s):</span> Freezes action (sports/wildlife)</p>
+      <p><span class="highlight">Slow (1/30s+):</span> Creates motion blur (light trails)</p>
     </div>
 
     <div class="review-card">
-        <div class="review-header">
-            <i class="fas fa-camera icon-accent"></i>
-            <h3>Aperture – Depth & Light</h3>
-        </div>
-        <ul class="review-list">
-            <li><span class="highlight">Wide (f/1.8):</span> Bright + Blurry background (portraits)</li>
-            <li><span class="highlight">Narrow (f/11):</span> Darker + Full focus (landscapes)</li>
-        </ul>
+      <div class="review-icon"><i class="fas fa-camera"></i></div>
+      <h3>Aperture – Depth &amp; Light</h3>
+      <p><span class="highlight">Wide (f/1.8):</span> Bright + blurry background (portraits)</p>
+      <p><span class="highlight">Narrow (f/11):</span> Darker + full focus (landscapes)</p>
     </div>
+  </div>
 
-    
-
-    <div class="d-flex justify-content-center align-items-center mt-4">
-        <a href="{{ url_for('quiz_home') }}" class="btn btn-primary me-3">
-          <i class="fas fa-arrow-left"></i>
-          Back to Quiz Dashboard
-        </a>
-    
-        <form method="POST" class="mb-0">
-          <button type="submit" class="btn btn-success">
-            <i class="fas fa-check"></i>
-            Mark as Read &amp; Start Quiz
-          </button>
-        </form>
-    </div>
+  <div class="review-actions">
+    <a href="{{ url_for('quiz_home') }}" class="btn-action">
+      <i class="fas fa-arrow-left me-1"></i>Back to Dashboard
+    </a>
+    <form method="POST" class="d-inline">
+      <button type="submit" class="btn-action">
+        <i class="fas fa-check me-1"></i>Mark as Read &amp; Start Quiz
+      </button>
+    </form>
+  </div>
 </div>
 
 <style>
-    .review-container {
-        padding: 2rem;
-        margin: 1rem auto;
-        background: #ffffff;
-        border-radius: 16px;
-        box-shadow: 0 8px 30px rgba(0,0,0,0.08);
-        max-width: 800px;
-    }
+  body, .review-page, .review-card {
+    font-family: 'Roboto', sans-serif;
+  }
+  :root {
+    --review-accent: rgba(0,0,0,0.5);
+  }
 
-    .review-title {
-        color: #2c3e50;
-        text-align: center;
-        margin-bottom: 2rem;
-        font-size: 2.2rem;
-    }
+  .review-page {
+    padding: 2rem 1rem;
+  }
+  .review-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
 
-    .review-card {
-        background: #f8f9fa;
-        border-radius: 12px;
-        padding: 1.5rem;
-        margin: 1.5rem 0;
-        border-left: 4px solid #4A90E2;
-        transition: transform 0.3s ease;
-    }
+  /* stack cards vertically */
+  .review-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+  }
 
-    .review-card:hover {
-        transform: translateY(-3px);
-    }
-
-    .review-header {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        margin-bottom: 1.2rem;
-    }
-
-    .review-header h3 {
-        color: #2c3e50;
-        margin: 0;
-    }
-
-    .icon-accent {
-        color: #4A90E2;
-        font-size: 1.8rem;
-    }
-
-    .review-list {
-        padding-left: 2rem;
-        margin: 1rem 0;
-    }
-
-    .highlight {
-        color: #4A90E2;
-        font-weight: 500;
-    }
-
-    .review-tip {
-        background: #e3f2fd;
-        padding: 1rem;
-        border-radius: 8px;
-        margin-top: 1rem;
-        display: flex;
-        align-items: center;
-        gap: 0.8rem;
-    }
-
-    @media (max-width: 768px) {
-        .review-container {
-            margin: 1rem;
-            padding: 1rem;
-        }
-        
-        .review-title {
-            font-size: 1.8rem;
-        }
-    }
+  .review-card {
+    background: rgba(255,255,255,0.85);
+    border-radius: 1rem;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    padding: 1.5rem;
+    width: 100%;
+    max-width: 900px;
+    text-align: center;
+  }
+  .review-icon {
+    background: var(--review-accent);
+    color: #fff;
+    width: 3rem; height: 3rem;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+  }
+  .review-card h3 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    color: #2c3e50;
+  }
+  .review-card p {
+    font-size: 0.95rem;
+    margin: 0.25rem 0;
+    color: #333;
+  }
+  .highlight {
+    color: var(--review-accent);
+    font-weight: 600;
+  }
+  .review-tip {
+    margin-top: 1.5rem;
+    background: rgba(183, 179, 179, 0.612);
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #1a1a1a;
+  }
+  .review-actions {
+    margin-top: 2.5rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+  }
+  .btn-action {
+    background: #000;
+    color: #fff !important;
+    padding: 0.6rem 1.2rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    transition: background 0.2s;
+  }
+  .btn-action:hover {
+    background: #333;
+  }
 </style>
 {% endblock %}

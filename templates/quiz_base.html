@@ -1,365 +1,417 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Exposure Triangle Quiz</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Exposure Triangle Quiz</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;700&family=Roboto:wght@300;500&display=swap" rel="stylesheet"/>
+
+  <!-- AuroraBackground CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='react/assets/index-CqLd8W_5.css') }}"/>
+
+  <!-- FontAwesome + jQuery + Bootstrap (if you still need them) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+  />
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script
     src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-    ></script>
-    <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-    />
-    <style>
+  ></script>
 
-        :root {
-            --primary-color: #4A90E2;
-            /* --primary-color: #409EA8; */
-            --secondary-color: #6C757D;
-            /* --secondary-color: #BFBFC1; */
-            --success-color: #28A745;
-            --danger-color: #DC3545;
-            --light-bg: #F8F9FA;
-            /* --light-bg: #EEF9F3; */
-            --dark-text: #2D3748;
-        }
-        
-        body {
-            background: #f0f2f5;
-            color: var(--dark-text);
-            line-height: 1.6;
-        }
-        nav {
-            background: white;
-            padding: 1rem 2rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+  <style>
+    body {
+    font-family: 'Roboto', sans-serif;
+    }
+    /* ── Copy the same navbar + slider CSS from iso.html ── */
+    .custom-navbar {
+      position: fixed; top: 0; left: 0;
+      width: 100%; z-index: 10;
+      background: rgba(255,255,255,0.6);
+      padding: 0.5rem 0;
+      display: flex; justify-content: center;
+    }
+    .custom-nav-list {
+      position: relative; list-style: none;
+      margin: 0; padding: 0;
+      display: flex; gap: 2rem;
+    }
+    .custom-nav-list li a {
+      display: block; color: #000; text-decoration: none;
+      text-transform: uppercase; font-weight: 500;
+      padding: 0.5rem 1rem; transition: color 0.2s;
+      white-space: nowrap; font-family: 'Roboto', sans-serif;
+    }
+    .custom-nav-list li a:hover { color: #333; }
+    .nav-slider {
+      position: absolute; bottom: 0; left: 0;
+      height: 4px; background: rgba(0,0,0,0.5);
+      transition: left 0.3s ease, width 0.3s ease; opacity: 0;
+    }
+    .custom-nav-list:hover .nav-slider { opacity: 1; }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            /* font-family: 'Poppins', sans-serif; */
-            font-family: 'Noto Sans JP', serif;
-        }
+    /* AuroraBackground host */
+    #root {
+      margin-top: 4px;
+      height: calc(100vh - 4px);
+    }
 
-        .nav-brand {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: var(--primary-color);
-        }
+    /* Overlay container for all quiz content */
+    #content {
+      position: fixed;
+      top: 56px; left: 0;
+      width: 100%; height: calc(100vh - 56px);
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column;
+      z-index: 1;
+      font-family: 'Roboto', sans-serif;
+      color: #000; text-align: center;
+      padding: 0 1rem;
+      overflow-y: auto;
+    }
 
-        .nav-links a {
-            color: var(--secondary-color);
-            text-decoration: none;
-            margin-left: 2rem;
-            transition: color 0.3s ease;
-        }
+    /* (Optional) if you want your white quiz card centered */
+    .overlay-container {
+      width: 100%;
+      max-width: 800px;
+      margin: 2rem auto;
+    }
 
-        .nav-links a:hover {
-            color: var(--primary-color);
-        }
+    /* ISO-style black buttons */
+    .btn-action,
+    .btn-primary {
+        display: inline-block;
+        background: #000;             /* solid black */
+        color: #fff !important;       /* white text */
+        font-family: 'Roboto', sans-serif;
+        font-weight: 500;
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 4px;
+        text-decoration: none;
+        text-transform: none;         /* match ISO */
+        transition: background 0.2s;
+        cursor: pointer;
+    }
+    .btn-action:hover,
+    .btn-primary:hover {
+        background: #333;             /* slightly lighter on hover */
+    }
+    /* ── Feedback card (centered, Aurora overlay style) ── */
+    .feedback-card {
+        padding: 2rem;
+        border-radius: 1rem;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        max-width: 700px;
+        margin: 1rem auto;
+        text-align: center;
+    }
 
-        .container {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 2rem;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-        }
+    /* preserve your red/green feedback */
+    .feedback-card.correct {
+        background: #e6fff2;                      /* pale green */
+        border: 2px solid var(--success-color);   /* #28A745 */
+    }
 
-        .quiz-card {
-            background: white;
-            border-radius: 10px;
-            padding: 2rem;
-            margin: 2rem 0;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
+    .feedback-card.incorrect {
+        background: #fff0f0;                      /* pale red */
+        border: 2px solid var(--danger-color);    /* #DC3545 */
+    }
 
-        .btn {
-            padding: 0.8rem 1.5rem;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
+    /* title & text styling */
+    .feedback-card h5 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: .5rem;
+    }
+    .feedback-card p {
+        font-size: 1rem;
+        color: var(--dark-text);
+        line-height: 1.4;
+    }
 
-        .btn-primary {
-            background: var(--primary-color);
-            color: white;
-        }
+    /* ISO-style Next button inside feedback */
+    .feedback-card .btn-action {
+        margin-top: 1.5rem;
+    }
 
-        .btn-secondary {
-            background: var(--secondary-color);
-            color: white;
-        }
+        /* ── Shutter question layout tweaks ── */
+    .shutter-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    }
+    .shutter-image {
+    width: 80%;
+    max-width: 800px;
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .options-grid {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+    }
+    .option-card .speed-value {
+    font-weight: 600;
+    font-size: 1.1rem;
+    }
+    .option-card .speed-description {
+    font-size: 0.9rem;
+    color: var(--dark-text);
+    }
 
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
+    /* ── Feedback-card enhancements ── */
+    .feedback-card .correct-answer {
+    font-weight: 600;
+    margin-top: 1rem;
+    color: var(--primary-color);
+    font-size: 1rem;
+    }
+    .feedback-card p.feedback-message {
+    margin-top: 0.5rem;
+    line-height: 1.4;
+    }
 
-        .image-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin: 2rem 0;
-        }
+    /* force two-column layout for question images */
+    /* .image-container {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(200px, 1fr));
+    gap: 2rem;
+    margin: 2rem 0;
+    justify-items: center;
+    }
 
-        .feedback {
-            padding: 1rem;
-            border-radius: 6px;
-            margin: 1rem 0;
-        }
+    .image-container .image-card {
+    width: 100%;
+    max-width: 500px;
+    } */
 
-        .correct {
-            background: #e6fff2;
-            border: 2px solid var(--success-color);
-        }
+    /* ── Image card & label improvements ── */
+    .image-container {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin: 2rem 0;
+    }
 
-        .incorrect {
-            background: #fff0f0;
-            border: 2px solid var(--danger-color);
-        }
+    .image-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
 
-        .subquestion {
-            background: var(--light-bg);
-            border-left: 4px solid var(--primary-color);
-            margin: 1.5rem 0;
-            padding: 1.5rem;
-        }
+    .image-card img {
+    display: block;
+    width: 100%;
+    height: auto;
+    }
 
-        .was-validated .form-control:invalid {
-            border-color: #dc3545;
-        }
+    .image-label {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    padding: 0.5rem 0;
+    text-align: center;
+    }
 
-        .was-validated .invalid-feedback {
-            display: block;
-        }
+    /* ── Matching subquestion card ── */
+    .subquestion-card {
+    background: rgba(255,255,255,0.85);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    margin-bottom: 2rem;
+    }
 
-        .was-validated .image-card:has(input:invalid) {
-            border-color: #dc3545;
-            animation: shake 0.5s;
-        }
+    .subquestion-title {
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    }
 
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
-        }
-        .image-card {
-            position: relative;
-            /* max-width: 400px; */
-            max-width: none !important;
-            margin: 0 auto;
-        }
+    .options-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    }
 
-        .image-card img {
-            width: 100%;
-            /* height: 350px; */
-            height: auto;
-            object-fit: cover;
-            border-radius: 8px;
-            transition: transform 0.3s ease;
-        }
+    .option-list-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    }
 
-        .image-label {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(0,0,0,0.7);
-            color: white;
-            padding: 12px;
-            text-align: center;
-            border-radius: 0 0 8px 8px;
-        }
+    .option-list-item input {
+    accent-color: var(--primary-color);
+    }
 
-        .image-container {
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-        }
+    .option-text {
+    font-size: 1rem;
+    }
 
-        /* For mobile */
-        @media (max-width: 480px) {
-            .image-card img {
-                height: 200px;
-            }
-        }
+    /* Results container */
+    .results-card {
+    background: #ffffff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    max-width: 500px;
+    margin: 0 auto;
+    }
 
-        .feedback {
-            margin: 2rem 0;
-            padding: 1.5rem;
-            border-radius: 8px;
-            position: relative;
-        }
+    /* Wrapper for the list of per-question scores */
+    .score-breakdown {
+    margin: 2rem 0;
+    }
 
-        .feedback-content {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
+    /* Individual score line */
+    .score-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+    margin: 0.5rem 0;
+    background: #f8f9fa;
+    border-radius: 8px;
+    }
 
-        .feedback-message {
-            margin: 0;
-            font-size: 1.1rem;
-        }
+    /* Total score summary line */
+    .total-score {
+    display: flex;
+    justify-content: space-between;
+    padding: 1.5rem;
+    margin-top: 2rem;
+    background: rgba(183, 179, 179, 0.612);
+    border-radius: 8px;
+    font-weight: 600;
+    }
 
-        .feedback-actions {
-            margin-top: 1.5rem;
-            text-align: center;
-        }
+    /* Container for the “Return to Home” button */
+    .feedback-actions {
+    text-align: center;
+    margin-top: 1.5rem;
+    }
 
-        .btn-primary {
-            min-width: 150px;
-        }
+    .feedback-actions .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    }
 
-        .shutter-container {
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-        }
+    .options-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+    }
 
-        .shutter-image {
-            display: block; 
-            margin: 0 auto;
-            width: 80%;
-            height: auto;
-            max-height: none !important;
-            object-fit: cover;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
+    @media (min-width: 768px) {
+    .options-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    }
 
-        .options-grid {
-            display: grid;
-            gap: 1.5rem;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        }
+    .option-card {
+    position: relative;
+    background: #fff;
+    border: 2px solid transparent;
+    border-radius: 0.75rem;
+    padding: 1rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    cursor: pointer;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    }
 
-        .option-card {
-            border: 2px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 1.5rem;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
+    .option-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(183, 179, 179, 0.612);
+    }
 
-        .option-card:hover {
-            border-color: var(--primary-color);
-            transform: translateY(-3px);
-        }
+    .option-card input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    }
 
-        .option-card input:checked + .option-content {
-            background: var(--light-bg);
-        }
+    .option-card input:checked + .option-content {
+    border-color: var(--primary-color);
+    }
 
-        .option-content {
-            padding: 1rem;
-        }
+    .option-content {
+    /* border: 2px solid transparent; */
+    border-radius: 0.5rem;
+    width: 100%;
+    padding: 0.5rem 0;
+    text-align: center;
+    transition: border-color 0.2s ease;
+    }
 
-        .speed-value {
-            font-size: 1.4rem;
-            font-weight: 600;
-            color: var(--primary-color);
-            display: block;
-            margin-bottom: 0.5rem;
-        }
+    .option-card input[type="radio"] {
+    /* show it */
+    appearance: auto;
+    /* bump it up a bit so it’s easier to click */
+    width: 1.2em;
+    height: 1.2em;
+    margin-bottom: 0.25em;
+    accent-color: var(--primary-color, #4A90E2);
+    }
 
-        .speed-description {
-            color: var(--secondary-color);
-            font-size: 0.9rem;
-        }
+    /* 3) Optional: give the checked card a very subtle background to still indicate selection */
+    .option-card input[type="radio"]:checked + .option-content {
+    background: rgba(127, 127, 128, 0.08);
+    }
 
-        .btn-submit {
-            margin-top: 2rem;
-            padding: 1rem 2rem;
-            font-size: 1.1rem;
-        }
+    .speed-value {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #000;
+    }
 
-        .correct-answer {
-            color: var(--success-color);
-            font-weight: 500;
-            margin-top: 1rem;
-        }
+    .speed-description {
+    font-size: 0.9rem;
+    color: var(--dark-text);
+    }
 
-        .results-card {
-            background: white;
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            max-width: 500px;
-            margin: 0 auto;
-        }
 
-        .score-breakdown {
-            margin: 2rem 0;
-        }
-
-        .score-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 1rem;
-            margin: 0.5rem 0;
-            background: #f8f9fa;
-            border-radius: 8px;
-        }
-
-        .total-score {
-            display: flex;
-            justify-content: space-between;
-            padding: 1.5rem;
-            margin-top: 2rem;
-            background: #e3f2fd;
-            border-radius: 8px;
-            font-weight: 600;
-        }
-
-        .score-label {
-            color: #4a5568;
-        }
-
-        .score-value {
-            color: #2d3748;
-            font-weight: 500;
-        }
-
-        .total-value {
-            color: #2b6cb0;
-        }
-
-        .current-score {
-            background: #e3f2fd;
-            padding: 0.8rem;
-            border-radius: 6px;
-            margin-bottom: 1.5rem;
-            text-align: center;
-            font-weight: 500;
-            color: #2b6cb0;
-        }
-
-        .nav-links a            { padding:.3rem .6rem; border-radius:4px; }
-        .nav-links a.active     { background:#444; color:#fff !important; }
-        .nav-links a.disabled-link { pointer-events:none; opacity:.4; }
-    </style>
-    
-    
+  </style>
 </head>
 <body>
-    <nav>
-        <a href="{{ url_for('home') }}" class="nav-brand">
-            <i class="fas fa-camera"></i> TriXposure
-        </a>
-        <div class="nav-links">
-            <!-- <a href="{{ url_for('home') }}">Home</a> -->
+  <!-- 1) Exactly the same nav as iso.html -->
+  <nav class="custom-navbar">
+    <ul class="custom-nav-list">
+      <li><a href="{{ url_for('home') }}">Home</a></li>
+      <li><a href="{{ url_for('iso_page') }}">ISO</a></li>
+      <li><a href="{{ url_for('shutter_speed_page') }}">Shutter Speed</a></li>
+      <li><a href="{{ url_for('aperture_page') }}">Aperture</a></li>
+      <li><a href="{{ url_for('simulator_page') }}">Simulator</a></li>
+      <li><a href="{{ url_for('quiz_home') }}">Quiz</a></li>
+      <div class="nav-slider"></div>
+    </ul>
+  </nav>
 
+<<<<<<< Updated upstream
             <!-- place-holders  -->
             <a href="#"                                class="disabled-link">ISO</a>
             <a href="#"                                class="disabled-link">Shutter Speed</a>
@@ -371,73 +423,79 @@
             <!-- <a href="{{ url_for('review') }}">Review</a> -->
         </div>
     </nav>
+=======
+  <!-- 2) The Aurora background mount -->
+  <div id="root"></div>
+>>>>>>> Stashed changes
 
-    <div class="container">
-        {% if show_results %}
-        <div class="results-card">
-            <h2>📊 Quiz Results</h2>
-            <div class="score-breakdown">
+  
+
+    <!-- 3) All of your quiz pages go here -->
+    <div id="content">
+        <div class="overlay-container">
+          {% if show_results %}
+            <!-- results summary -->
+            <div class="results-card">
+              <h2>📊 Quiz Results</h2>
+              <div class="score-breakdown">
                 <div class="score-item">
-                    <span>Question 1 (ISO):</span>
-                    <span>{{ session.scores[0] }}/1</span>
+                  <span>Question 1 (ISO):</span>
+                  <span>{{ session.scores[0] }}/1</span>
                 </div>
                 <div class="score-item">
-                    <span>Question 2 (Shutter Speed):</span>
-                    <span>{{ session.scores[1] }}/1</span>
+                  <span>Question 2 (Shutter Speed):</span>
+                  <span>{{ session.scores[1] }}/1</span>
                 </div>
                 <div class="score-item">
-                    <span>Question 3 (Matching):</span>
-                    <span>{{ session.scores[2] }}/3</span>
+                  <span>Question 3 (Matching):</span>
+                  <span>{{ session.scores[2] }}/3</span>
                 </div>
                 <div class="total-score">
-                    <span>Total Score:</span>
-                    <span class="highlight">{{ session.score }}/5</span>
+                  <span>Total Score:</span>
+                  <span class="highlight">{{ session.score }}/5</span>
                 </div>
-            </div>
-            <!-- <div class="text-center">
-                <button onclick="location.href='/'" class="btn btn-primary">
-                    <i class="fas fa-redo"></i> Return to Home
-                </button>
-            </div> -->
-            <div class="feedback-actions">
+              </div>
+              <div class="feedback-actions">
                 <a href='/' class="btn btn-primary">
-                    <i class="fas fa-arrow-left"></i> Return to Home 
+                  <i class="fas fa-arrow-left"></i> Return to Home
                 </a>
+              </div>
             </div>
-        </div>
-        
-        {% else %}
-            {# If this is a quiz page, wrap the child content in a POST form #}
+          {% else %}
             {% if q_num is defined %}
-            <form method="POST" action="{{ url_for('quiz', q_num=q_num) }}">
+              <form method="POST" action="{{ url_for('quiz', q_num=q_num) }}">
             {% endif %}
     
             {% block content %}{% endblock %}
     
             {% if q_num is defined %}
-            </form>
+              </form>
             {% endif %}
-        {% endif %}
+          {% endif %}
+        </div>
     </div>
+    
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const forms = document.querySelectorAll('form');
-            forms.forEach(form => {
-                form.addEventListener('submit', (e) => {
-                    if (!form.checkValidity()) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        // Add shake animation to invalid elements
-                        const invalidElements = form.querySelectorAll(':invalid');
-                        invalidElements.forEach(el => {
-                            el.parentElement.style.animation = 'shake 0.5s';
-                        });
-                    }
-                    form.classList.add('was-validated');
-                }, false);
-            });
+  <!-- Navbar slider JS (same as iso.html) -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const navList = document.querySelector('.custom-nav-list');
+      const slider  = navList.querySelector('.nav-slider');
+      const items   = Array.from(navList.querySelectorAll('li'));
+      items.forEach(item => {
+        item.addEventListener('mouseenter', () => {
+          const r  = item.getBoundingClientRect();
+          const cr = navList.getBoundingClientRect();
+          slider.style.width = r.width + 'px';
+          slider.style.left  = (r.left - cr.left) + 'px';
         });
-    </script>
+      });
+      navList.addEventListener('mouseenter', () => slider.style.opacity = '1');
+      navList.addEventListener('mouseleave', () => slider.style.opacity = '0');
+    });
+  </script>
+
+  <!-- AuroraBackground JS -->
+  <script type="module" src="{{ url_for('static', filename='react/assets/index-DKhudlPX.js') }}"></script>
 </body>
 </html>
