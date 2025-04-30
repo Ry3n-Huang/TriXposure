@@ -1,0 +1,62 @@
+{% extends "quiz_base.html" %}
+{% block content %}
+<div class="current-score">
+    <i class="fas fa-star"></i> Current Score: {{ score }}/5
+</div>
+
+<div class="quiz-card">
+    <h3 class="mb-4">📸 Which photo used higher ISO?</h3>
+    <form method="POST" action="{{ url_for('quiz', q_num=1) }}">
+        <div class="row gx-4 gy-4">
+            {% for image in question.images %}
+            <div class="col-12 col-md-6">
+                <label class="image-card d-block">
+                    <input type="radio" name="answer" value="{{ loop.index0 }}" required>
+                    <img src="{{ url_for('static', filename='images/' + image) }}" class="w-100 rounded"/>
+                    <div class="image-label">
+                        {% if loop.index0 == 0 %}
+                            <i class="fas fa-image"></i> Left Image
+                        {% else %}
+                            <i class="fas fa-sun"></i> Right Image
+                        {% endif %}
+                    </div>
+                </label>
+            </div>
+            {% endfor %}
+        </div>
+
+        {% if feedback %}
+        <div class="feedback {% if feedback.correct %}correct{% else %}incorrect{% endif %}">
+            <div class="feedback-content">
+                <h5 class="mb-2">
+                    {% if feedback.correct %}
+                    <i class="fas fa-check-circle"></i> Correct!
+                    {% else %}
+                    <i class="fas fa-times-circle"></i> Wrong..
+                    {% endif %}
+                </h5>
+                <p class="feedback-message">{{ feedback.message|safe}}</p>
+                <div class="feedback-actions">
+                    <a href="{{ url_for('quiz', q_num=q_num+1) }}" class="btn btn-primary">
+                        Next <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <!-- <div class="text-center">
+            <button type="submit" class="btn btn-primary">
+                Submit Answer <i class="fas fa-paper-plane"></i>
+            </button>
+        </div> -->
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary btn-submit">
+                <i class="fas fa-check"></i> Submit Answer
+            </button>
+        </div>
+        {% endif %}
+    </form>
+</div>
+{% endblock %}
+
+
