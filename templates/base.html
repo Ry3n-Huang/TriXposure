@@ -76,6 +76,19 @@
     }
     .btn-action:hover { background: #333; }
     html { color-scheme: light dark; }
+    .horizontal-list {
+      display: flex;
+      justify-content: center;  /* 水平居中 */
+      gap: 100px;                /* 控制左右间距 */
+      list-style: disc;         /* 保留 bullets */
+      padding: 0;
+    }
+
+    .horizontal-list li {
+      text-align: center;
+      width: 600px;             /* 控制每个 bullet 宽度，可微调 */
+    }
+
     
 
     /* 暗色模式下生效 */
@@ -179,6 +192,10 @@
         color: #000;
       }
     }
+    strong, b {
+      font-weight: 700 !important;
+    }
+
   </style>
 
   {% block extra_head %}{% endblock %}
