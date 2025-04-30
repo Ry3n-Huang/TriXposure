@@ -75,6 +75,38 @@
       font-weight: 500; transition: background 0.2s; margin: 0 0.5rem;
     }
     .btn-action:hover { background: #333; }
+    html { color-scheme: light dark; }
+
+    /* 暗色模式下生效 */
+    @media (prefers-color-scheme: dark) {
+      /* 全局文字白色 */
+      body, #content {
+        color: #fff;
+      }
+      /* Navbar 背景半透明黑 */
+      .custom-navbar {
+        background: rgba(0,0,0,0.6);
+      }
+      /* 导航链接白色 */
+      .custom-nav-list li a {
+        color: #fff;
+      }
+      .custom-nav-list li a:hover {
+        color: #ccc;
+      }
+      /* 滑块也反色 */
+      .nav-slider {
+        background: rgba(255,255,255,0.5);
+      }
+      /* 按钮反色：底色白、字色黑 */
+      .btn-action {
+        background: #fff;
+        color: #000;
+      }
+      .btn-action:hover {
+        background: #ddd;
+      }
+    }
   </style>
 
   {% block extra_head %}{% endblock %}
