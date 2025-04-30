@@ -1,129 +1,81 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>ISO – Controlling Light Sensitivity</title>
+{# templates/iso.html #}
+{% extends 'base.html' %}
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;700&family=Roboto:wght@300;500&display=swap" rel="stylesheet"/>
+{% block title %}ISO – Controlling Light Sensitivity{% endblock %}
 
-  <!-- AuroraBackground CSS (built asset) -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='react/assets/index-CqLd8W_5.css') }}"/>
+{% block extra_head %}
 
-  <style>
-    /* ── Navbar & slider (unchanged, fixed) ───────────────────────────────── */  
-    .custom-navbar {
-      position: fixed; top: 0; left: 0;
-      width: 100%; z-index: 10;
-      background: rgba(255,255,255,0.6);
-      padding: 0.5rem 0;
-      display: flex; justify-content: center;
-    }
-    .custom-nav-list {
-      position: relative; list-style: none;
-      margin: 0; padding: 0;
-      display: flex; gap: 2rem;
-    }
-    .custom-nav-list li a {
-      display: block; color: #000; text-decoration: none;
-      text-transform: uppercase; font-weight: 500;
-      padding: 0.5rem 1rem; transition: color 0.2s;
-      white-space: nowrap; font-family: 'Roboto', sans-serif;
-    }
-    .custom-nav-list li a:hover { color: #333; }
-    .nav-slider {
-      position: absolute; bottom: 0; left: 0;
-      height: 4px; background: rgba(0,0,0,0.5);
-      transition: left 0.3s ease, width 0.3s ease; opacity: 0;
-    }
-    .custom-nav-list:hover .nav-slider { opacity: 1; }
-    /* :contentReference[oaicite:0]{index=0}&#8203;:contentReference[oaicite:1]{index=1} */
 
-    /* ── AuroraBackground root, start below navbar ────────────────────────── */
-    #root {
-      margin-top: 4px;               /* 推到导航栏下方 */
-      height: calc(100vh - 4px);     /* 占满剩余高度 */
-    }
+{% endblock %}
 
-    /* ── 居中覆盖文字 ─────────────────────────────────────────────────────── */
-    #content {
-      position: fixed;
-      top: 56px; left: 0;
-      width: 100%; height: calc(100vh - 56px);
-      display: flex; align-items: center; justify-content: center;
-      flex-direction: column;
-      z-index: 1;
-      font-family: 'Montserrat', sans-serif;
-      color: #000; text-align: center;
-      padding: 0 1rem;
-    }
-    #content h1 {
-      font-size: 4rem; font-weight: 700; margin-bottom: 1rem;
-    }
-    #content p {
-      font-size: 1.25rem; font-weight: 300; margin-bottom: 2rem;
-    }
-    .btn-action {
-      display: inline-block; padding: 0.5rem 1rem;
-      background: #000; color: #fff; text-decoration: none;
-      border-radius: 4px; font-family: 'Roboto', sans-serif;
-      font-weight: 500; transition: background 0.2s;
-      margin: 0 0.5rem;
-    }
-    .btn-action:hover { background: #333; }
-  </style>
-</head>
-<body>
-  <!-- Navbar (fixed) -->
-  <nav class="custom-navbar">
-    <ul class="custom-nav-list">
-      <li><a href="{{ url_for('home') }}">Home</a></li>
-      <li><a href="{{ url_for('iso_page') }}">ISO</a></li>
-      <li><a href="{{ url_for('shutter_speed_page') }}">Shutter Speed</a></li>
-      <li><a href="{{ url_for('aperture_page') }}">Aperture</a></li>
-      <li><a href="{{ url_for('simulator_page') }}">Simulator</a></li>
-      <li><a href="{{ url_for('quiz_home') }}">Quiz</a></li>
-      <div class="nav-slider"></div>
-    </ul>
-  </nav>
 
-  <!-- React mount point: AuroraBackground -->
-  <div id="root"></div>
+{% block content %}
+<h1>ISO – Controlling Light Sensitivity</h1>
+<p class="subtitle" style="margin-bottom: 0;">
+  ISO controls how sensitive your camera sensor is to light.
+</p>
+<!-- <div class="iso-image" style="text-align: center; margin: 0.0rem 0;">
+  <img
+    src="{{ url_for('static', filename='images/iso.png') }}"
+    alt="ISO 示意图"
+    style="width: 600px; height: auto;"
+  >
+</div> -->
+<div class="iso-image">
+  <a
+    href="#"
+    class="modal-trigger"
+    data-img-url="{{ url_for('static', filename='images/iso.png') }}"
+    title="点击查看原图"
+  >
+    <img
+      src="{{ url_for('static', filename='images/iso.png') }}"
+      alt="ISO 示意图"
+      style="width: 600px; height: auto;"
+    >
+  </a>
+</div>
 
-  <!-- Fixed, centered overlay content -->
-  <div id="content">
-    <h1>ISO – Controlling Light Sensitivity</h1>
-    <p>
-      ISO controls how sensitive your camera sensor is to light.<br>
-      Lower ISO = cleaner image but needs more light.<br>
-      Higher ISO = works in low light but adds noise (graininess).
-    </p>
-    <div>
-      <a href="{{ url_for('home') }}" class="btn-action">Back to Home</a>
-      <a href="{{ url_for('shutter_speed_page') }}" class="btn-action">Next</a>
-    </div>
-  </div>
 
-  <!-- Navbar slider JS -->
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const navList = document.querySelector('.custom-nav-list');
-      const slider = navList.querySelector('.nav-slider');
-      const items = Array.from(navList.querySelectorAll('li'));
-      items.forEach(item => {
-        item.addEventListener('mouseenter', () => {
-          const r = item.getBoundingClientRect(), cr = navList.getBoundingClientRect();
-          slider.style.width = r.width + 'px';
-          slider.style.left = (r.left - cr.left) + 'px';
-        });
-      });
-      navList.addEventListener('mouseenter', () => slider.style.opacity = '1');
-      navList.addEventListener('mouseleave', () => slider.style.opacity = '0');
-    });
-  </script>
+<div class="bullets">
+  <ul class="horizontal-list">
+    <li>Lower ISO = cleaner image, ideal for well-lit scenes such as daytime.</li>
+    <li>Higher ISO = works in low light but adds noise (graininess).</li>
+  </ul>
+</div>
 
-  <!-- AuroraBackground JS (built asset) -->
-  <script type="module" src="{{ url_for('static', filename='react/assets/index-DKhudlPX.js') }}"></script>
-</body>
-</html>
+<!-- 提示部分 -->
+<div style="text-align: center; max-width: 800px; margin: 0 auto;">
+  <p style="font-size: 1.5rem; font-style: italic; font-weight: 400;">
+    ***Tip: Always try lowest ISO possible for cleanest result.***<br></br>
+  </p>
+  <p class="subtitle" style="margin-bottom: 0;">
+    Click on a scene to see how ISO affects your photo:
+  </p>
+</div>
+<!-- 跳转链接 -->
+<div style="text-align:center; margin-top:1rem;">
+  <a href="#" class="modal-trigger btn-action" data-img-url="{{ url_for('static', filename='images/bright_sunny.jpeg') }}">
+    Bright Outdoor (Sunny Day)
+  </a>
+  &nbsp;|&nbsp;
+  <a href="#" class="modal-trigger btn-action" data-img-url="{{ url_for('static', filename='images/night_portrait.jpg') }}">
+    Night Outdoor Portrait
+  </a>
+</div>
+
+<!-- Modal 结构 -->
+<div id="imageModal" class="modal-overlay">
+  <img src="" alt="" class="modal-content">
+</div>
+
+{% endblock %}
+
+{% block nav_buttons %}
+  <a href="{{ url_for('home') }}" class="side-nav side-nav-left">
+    <span class="arrow">&lt;</span>
+  </a>
+  <a href="{{ url_for('shutter_speed_page') }}" class="side-nav side-nav-right">
+    <span class="arrow">&gt;</span>
+  </a>
+{% endblock %}
