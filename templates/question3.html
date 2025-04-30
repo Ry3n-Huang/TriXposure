@@ -1,47 +1,54 @@
 {% extends "quiz_base.html" %}
 {% block content %}
-<div class="current-score">
-    <i class="fas fa-star"></i> Current Score: {{ score }}/5
-</div>
 
-<h3>Exposure Triangle Matching Quiz</h3>
-<form method="POST" action="{{ url_for('quiz', q_num=3) }}">
-    {% for sub_q in question.subquestions %}
-    {% set subq_index = loop.index0 %}
-    <div class="subquestion" style="margin: 20px 0; padding: 15px; border: 1px solid #ddd;">
-        <h5 class="subquestion-title">{{ sub_q.scene }}</h5>
-        <div class="options" style="margin: 10px 0;">
-            {% for option in sub_q.options %}
-            <label style="display: block; margin: 5px 0;">
-                <input type="radio" name="subq_{{ subq_index }}" 
-                      value="{{ loop.index0 }}" required
-                      {% if feedback and feedback[subq_index].user_answer == loop.index0 %}checked{% endif %}>
-                {{ option }}
-            </label>
-            {% endfor %}
-        </div>
-        
-        {% if feedback %}
-        <div class="feedback {% if feedback[subq_index].correct %}correct{% else %}incorrect{% endif %}" 
-            style="padding: 10px; margin-top: 5px;">
-            {{ feedback[subq_index].message|safe }}
-        </div>
-        {% endif %}
+  <div class="text-center mt-5 mt-4">
+    <div class="current-score mb-2">
+      <i class="fas fa-star"></i> Current Score: {{ score }}/5
     </div>
+    <h3 class="fw-bold mb-0">Exposure Triangle Matching Quiz</h3>
+  </div>
+
+  <form method="POST" action="{{ url_for('quiz', q_num=3) }}">
+    {% for sub_q in question.subquestions %}
+      {% set idx = loop.index0 %}
+      <div class="subquestion-card mt-4">
+        <h5 class="subquestion-title">{{ sub_q.scene }}</h5>
+        <div class="options-list">
+          {% for option in sub_q.options %}
+            <label class="option-list-item">
+              <input 
+                type="radio" 
+                name="subq_{{ idx }}" 
+                value="{{ loop.index0 }}" 
+                required
+                {% if feedback and feedback[idx].user_answer == loop.index0 %}checked{% endif %}
+              >
+              <span class="option-text">{{ option }}</span>
+            </label>
+          {% endfor %}
+        </div>
+
+        {% if feedback %}
+          <div class="feedback-card {% if feedback[idx].correct %}correct{% else %}incorrect{% endif %}">
+            <p class="feedback-message">{{ feedback[idx].message|safe }}</p>
+          </div>
+        {% endif %}
+      </div>
     {% endfor %}
 
     {% if feedback %}
-        <div class="feedback-actions">
-            <a href="{{ url_for('quiz', q_num=q_num+1) }}" class="btn btn-primary">
-                Next <i class="fas fa-arrow-right"></i>
-            </a>
-        </div>
+      <div class="text-center mt-4">
+        <a href="{{ url_for('quiz', q_num=q_num+1) }}" class="btn-action">
+          Next <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
     {% else %}
-        <div class="text-center">
-            <button type="submit" class="btn btn-primary btn-submit">
-                <i class="fas fa-check"></i> Submit Answer
-            </button>
-        </div>
+      <div class="text-center mt-4">
+        <button type="submit" class="btn-action">
+          <i class="fas fa-check"></i> Submit Answers
+        </button>
+      </div>
     {% endif %}
-</form>
+  </form>
+
 {% endblock %}

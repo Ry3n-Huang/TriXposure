@@ -1,54 +1,90 @@
 {% extends "quiz_base.html" %}
 {% block content %}
-<div class="quiz-card">
+  <div class="quiz-card">
+    <h2 class="quiz-home-title">Quiz: Test your Exposure Triangle Skills</h2>
+    <p class="quiz-home-lead">
+      Before you jump in, you can skim the key concepts or dive straight into the questions:
+    </p>
 
-  <h2 class="fw-bold mb-4">Quiz: Test your Exposure Triangle Skills</h2>
+    <!-- use custom “topic-btn” class instead of btn-outline-primary -->
+    <div class="topic-strip">
+      <a href="{{ url_for('iso_page') }}" class="topic-btn">ISO</a>
+      <a href="{{ url_for('shutter_speed_page') }}" class="topic-btn">Shutter Speed</a>
+      <a href="{{ url_for('aperture_page') }}" class="topic-btn">Aperture</a>
+      <a href="{{ url_for('simulator_page') }}" class="topic-btn">Simulator</a>
+    </div>
 
-  <p class="lead mb-4">
-    Before you jump in, you can skim the key concepts or dive straight into the questions:
-  </p>
-
-  <div class="d-flex justify-content-center gap-3 mb-5 topic-strip">
-    <a href="{{ url_for('iso_page') }}"      class="btn btn-outline-primary flex-grow-1 flex-md-grow-0">
-      ISO
-    </a>
-    <a href="{{ url_for('shutter_speed_page') }}"      class="btn btn-outline-primary flex-grow-1 flex-md-grow-0">
-      Shutter Speed
-    </a>
-    <a href="{{ url_for('aperture_page') }}"      class="btn btn-outline-primary flex-grow-1 flex-md-grow-0">
-      Aperture
-    </a>
-    <a href="{{ url_for('simulator_page') }}"      class="btn btn-outline-primary flex-grow-1 flex-md-grow-0">
-      Simulator
-    </a>
-    
+    <div class="d-flex flex-column flex-md-row justify-content-center gap-3 mt-5">
+      <a href="{{ url_for('review') }}" class="btn-action">
+        <i class="fas fa-book-open me-1"></i> Review Basics
+      </a>
+      <a href="{{ url_for('start_quiz') }}" class="btn-action">
+        <i class="fas fa-play me-1"></i> Start Quiz
+      </a>
+    </div>
   </div>
 
-  <!-- bottom CTAs -->
-  <div class="d-flex flex-column flex-md-row justify-content-center gap-3">
+  <style>
+    :root {
+      --topic-bg: rgba(183, 179, 179, 0.612);
+      --topic-fg: rgba(0,0,0,0.7);
+      --topic-hover-bg: rgba(0,0,0,0.5);
+      --topic-hover-fg: #fff;
+    }
 
-    <a href="/review" class="btn btn-secondary">
-        <i class="fas fa-book-open"></i> Review Basics
-    </a>
-    <a href="/start_quiz" class="btn btn-primary">
-        <i class="fas fa-play"></i> Start Quiz
-    </a>
-  </div>
+    .quiz-card {
+      background: rgba(255,255,255,0.90);
+      border-radius: 1rem;
+      padding: 2.5rem;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    }
+    .quiz-home-title {
+      font-size: 2rem;
+      margin-bottom: .5rem;
+      font-weight: 700;
+      color: #1a1a1a;
+    }
+    .quiz-home-lead {
+      margin-bottom: 2rem;
+      color: #444;
+    }
 
-</div>
+    /* grid out the topic buttons */
+    .topic-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1rem;
+      justify-items: center;
+      margin-bottom: 2rem;
+    }
 
-<style>
-  .quiz-card{
-    background:#fff;
-    border-radius:1rem;
-    padding:2.5rem 3rem;
-    box-shadow:0 4px 12px rgba(0,0,0,.06);
-  }
-  @media (max-width:576px){
-    .quiz-card{padding:2rem}
-  }
-</style>
+    .topic-btn {
+      /* display: inline-block; */
+      display: block;        /* fill the grid cell */
+      width: 100%;           /* match its column width */
+      max-width: none;       /* remove any previous max-width */
+      text-align: center; 
+      background: var(--topic-bg);
+      color: var(--topic-fg);
+      padding: .75rem 1.25rem;
+      border-radius: .5rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: background .2s, color .2s, transform .2s;
+    }
+    .topic-btn:hover {
+      background: var(--topic-hover-bg);
+      color: var(--topic-hover-fg);
+      transform: translateY(-2px);
+    }
+
+    /* “Start Quiz” stays purple from earlier snippet */
+    .btn-action.btn-start-quiz {
+      background: var(--topic-fg);
+      color: #fff !important;
+    }
+    .btn-action.btn-start-quiz:hover {
+      background: rgba(0,0,0,0.5);
+    }
+  </style>
 {% endblock %}
-
-
-
