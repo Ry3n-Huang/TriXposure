@@ -25,6 +25,7 @@
   <style>
     html {
       color-scheme: light dark;
+      font-size: 80%;
     }
     
     body {
@@ -50,12 +51,13 @@
       white-space: nowrap; font-family: 'Roboto', sans-serif;
     }
     .custom-nav-list li a:hover { color: #333; }
-    .nav-slider {
-      position: absolute; bottom: 0; left: 0;
-      height: 4px; background: rgba(0,0,0,0.5);
-      transition: left 0.3s ease, width 0.3s ease; opacity: 0;
+    .nav-slider{
+      position:absolute;bottom:0;left:0;
+      height:4px;background:rgba(0,0,0,.5);
+      transition:left .3s,width .3s;
+      opacity:1 !important;              /* always shown */
     }
-    .custom-nav-list:hover .nav-slider { opacity: 1; }
+    /* .custom-nav-list:hover .nav-slider { opacity: 1; } */
 
     /* AuroraBackground host */
     #root {
@@ -185,20 +187,6 @@
     margin-top: 0.5rem;
     line-height: 1.4;
     }
-
-    /* force two-column layout for question images */
-    /* .image-container {
-    display: grid !important;
-    grid-template-columns: repeat(2, minmax(200px, 1fr));
-    gap: 2rem;
-    margin: 2rem 0;
-    justify-items: center;
-    }
-
-    .image-container .image-card {
-    width: 100%;
-    max-width: 500px;
-    } */
 
     /* ── Image card & label improvements ── */
     .image-container {
@@ -446,9 +434,8 @@
       <li><a href="{{ url_for('iso_page') }}">ISO</a></li>
       <li><a href="{{ url_for('shutter_speed_page') }}">Shutter Speed</a></li>
       <li><a href="{{ url_for('aperture_page') }}">Aperture</a></li>
-      <li><a href="{{ url_for('simulator_page') }}">Simulator</a></li>
       <li><a href="{{ url_for('quiz_home') }}">Quiz</a></li>
-      <div class="nav-slider"></div>
+      <li class="nav-slider"></li>         <!-- ✓ li, always visible -->
     </ul>
   </nav>
 
@@ -526,5 +513,56 @@
 
   <!-- AuroraBackground JS -->
   <script type="module" src="{{ url_for('static', filename='react/assets/index-DKhudlPX.js') }}"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const navList = document.querySelector('.custom-nav-list');
+      const slider  = navList.querySelector('.nav-slider');
+      const items   = Array.from(navList.querySelectorAll('li:not(.nav-slider)'));
+    
+      /* ── pick the current <li> ───────────────────────────────────────────── */
+      const path   = window.location.pathname.replace(/\/$/, '');     // tidy trailing “/”
+      const active = items.find(li => {
+        const a    = li.querySelector('a');
+        const href = a.getAttribute('href').replace(/\/$/, '');
+    
+        /*                     ↓↓↓  THIS single return is the only change  ↓↓↓  */
+        return href === '/quiz'               /* group pages for “Quiz” tab                   */
+               ?  path.startsWith('/quiz') || path.startsWith('/review')
+               :  path === href;              /* exact match for all other nav items          */
+      });
+    
+      /* ---------- the rest of the script is unchanged ---------- */
+      slider.style.transition = 'none';               // disable animation for first snap
+      if (active) {
+        const r  = active.getBoundingClientRect();
+        const cr = navList.getBoundingClientRect();
+        slider.style.width = r.width + 'px';
+        slider.style.left  = (r.left - cr.left) + 'px';
+      }
+      requestAnimationFrame(() => {
+        slider.style.transition = 'left .3s ease, width .3s ease';
+      });
+    
+      /* follow hover, then pop back */
+      items.forEach(li => {
+        li.addEventListener('mouseenter', () => {
+          const r  = li.getBoundingClientRect();
+          const cr = navList.getBoundingClientRect();
+          slider.style.width = r.width + 'px';
+          slider.style.left  = (r.left - cr.left) + 'px';
+        });
+        li.addEventListener('mouseleave', () => {
+          if (!active) return;
+          const r  = active.getBoundingClientRect();
+          const cr = navList.getBoundingClientRect();
+          slider.style.width = r.width + 'px';
+          slider.style.left  = (r.left - cr.left) + 'px';
+        });
+      });
+    });
+  </script>  
+    
 </body>
 </html>
+
