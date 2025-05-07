@@ -23,6 +23,10 @@
 
 
   <style>
+    html {
+      font-size: 80%;
+    }
+
     body.fade-out {
      animation: pageFadeOut 0.6s ease forwards;
    }
@@ -284,7 +288,7 @@
       <li><a href="{{ url_for('iso_page') }}">ISO</a></li>
       <li><a href="{{ url_for('shutter_speed_page') }}">Shutter Speed</a></li>
       <li><a href="{{ url_for('aperture_page') }}">Aperture</a></li>
-      <li><a href="{{ url_for('simulator_page') }}">Simulator</a></li>
+      <!-- <li><a href="{{ url_for('simulator_page') }}">Simulator</a></li> -->
       <li><a href="{{ url_for('quiz_home') }}">Quiz</a></li>
       <div class="nav-slider"></div>
     </ul>
@@ -487,40 +491,40 @@
     });
 
     // Floating Dock
-    const links = [
-      { title: 'Home',      icon: React.createElement(IconHome,      { size: 24, stroke: 1.5, color: 'white' }), href: '/iso'   },
-      { title: 'Products',  icon: React.createElement(IconTerminal2, { size: 24, stroke: 1.5, color: 'white' }), href: '/learn/2'   },
-      { title: 'Components',icon: React.createElement(IconNewSection, { size: 24, stroke: 1.5, color: 'white' }), href: '/learn/3'   },
-      { title: 'Simulator', icon: React.createElement(IconExchange,    { size: 24, stroke: 1.5, color: 'white' }), href: '/simulate'  },
-      { title: 'Quiz',      icon: React.createElement(IconBrandX,      { size: 24, stroke: 1.5, color: 'white' }), href: '/quiz/1'     },
-      { title: 'GitHub',    icon: React.createElement(IconBrandGithub,{ size: 24, stroke: 1.5, color: 'white' }), href: 'https://github.com' }
-    ];
-    function FloatingDock({ items }) {
-      return React.createElement('div', {
-        style: {
-          position: 'fixed', bottom: '1rem', right: '1rem',
-          display: 'flex', flexDirection: 'column', gap: '0.5rem',
-          zIndex: 20
-        }
-      }, items.map((item, idx) =>
-        React.createElement('a', { className: 'dock-item',
-          key: item.title,
-          href: item.href,
-          title: item.title,
-          style: {
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            width: '3rem', height: '3rem', background: 'rgba(0,0,0,0.6)',
-            borderRadius: '0.5rem', color: 'white', textDecoration: 'none'
-          },
-          target: item.href.startsWith('http') ? '_blank' : '_self'
-        }, item.icon)
-      ));
-    }
-    function DemoDock() {
-      return React.createElement(FloatingDock, { items: links });
-    }
-    const dockRoot = createRoot(document.getElementById('dock-root'));
-    dockRoot.render(React.createElement(DemoDock));
+    // const links = [
+    //   { title: 'Home',      icon: React.createElement(IconHome,      { size: 24, stroke: 1.5, color: 'white' }), href: '/iso'   },
+    //   { title: 'Products',  icon: React.createElement(IconTerminal2, { size: 24, stroke: 1.5, color: 'white' }), href: '/learn/2'   },
+    //   { title: 'Components',icon: React.createElement(IconNewSection, { size: 24, stroke: 1.5, color: 'white' }), href: '/learn/3'   },
+    //   { title: 'Simulator', icon: React.createElement(IconExchange,    { size: 24, stroke: 1.5, color: 'white' }), href: '/simulate'  },
+    //   { title: 'Quiz',      icon: React.createElement(IconBrandX,      { size: 24, stroke: 1.5, color: 'white' }), href: '/quiz/1'     },
+    //   { title: 'GitHub',    icon: React.createElement(IconBrandGithub,{ size: 24, stroke: 1.5, color: 'white' }), href: 'https://github.com' }
+    // ];
+    // function FloatingDock({ items }) {
+    //   return React.createElement('div', {
+    //     style: {
+    //       position: 'fixed', bottom: '1rem', right: '1rem',
+    //       display: 'flex', flexDirection: 'column', gap: '0.5rem',
+    //       zIndex: 20
+    //     }
+    //   }, items.map((item, idx) =>
+    //     React.createElement('a', { className: 'dock-item',
+    //       key: item.title,
+    //       href: item.href,
+    //       title: item.title,
+    //       style: {
+    //         display: 'flex', alignItems: 'center', justifyContent: 'center',
+    //         width: '3rem', height: '3rem', background: 'rgba(0,0,0,0.6)',
+    //         borderRadius: '0.5rem', color: 'white', textDecoration: 'none'
+    //       },
+    //       target: item.href.startsWith('http') ? '_blank' : '_self'
+    //     }, item.icon)
+    //   ));
+    // }
+    // function DemoDock() {
+    //   return React.createElement(FloatingDock, { items: links });
+    // }
+    // const dockRoot = createRoot(document.getElementById('dock-root'));
+    // dockRoot.render(React.createElement(DemoDock));
   </script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
