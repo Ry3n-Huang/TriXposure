@@ -11,21 +11,25 @@ with open('static/data/questions.json', 'r', encoding='utf-8') as f:
 
 @app.route('/')
 def home():
+    # 访问 Home 时，在 session 里打个标记
+    session['show_hint'] = True
     return render_template('home_test.html')
 
 @app.route('/iso')
 def iso_page():
-    return render_template('iso.html')
-
+    # 只有 session 中有 show_hint 才把它弹一次，然后立刻清掉
+    show_hint = session.pop('show_hint', False)
+    return render_template('iso.html', show_hint=show_hint)
 
 @app.route('/ss')
 def shutter_speed_page():
-    return render_template('ss.html')
-
+    show_hint = session.pop('show_hint', False)
+    return render_template('ss.html', show_hint=show_hint)
 
 @app.route('/aperture')
 def aperture_page():
-    return render_template('aperture.html')
+    show_hint = session.pop('show_hint', False)
+    return render_template('aperture.html', show_hint=show_hint)
 
 
 @app.route('/simulator')
