@@ -58,7 +58,7 @@
           "options": [
             "ISO 100  | f/11  | 2s",
             "ISO 3200 | f/2.0 | 1/30s",
-            "ISO 800  | f/5.6 | 1/125s"
+            "ISO 800  | f/5.6 | 1/2s"
           ],
           "correct": 1,
           "explanation": "Correct! In low-light conditions, this combination provides a high ISO to brighten the image, a wide aperture (f/2.0) to gather more light, and a shutter speed (1/30s) that's just fast enough for handheld shooting without blur — making it the most practical choice at night."
