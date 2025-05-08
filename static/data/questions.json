@@ -50,8 +50,8 @@
             "ISO 800 | f/4.0 | 1/1000s",
             "ISO 200 | f/5.6 | 1/500s"
           ],
-          "correct": 1,
-          "explanation": "Correct! Small aperture and low ISO capture clear, full landscape."
+          "correct": 0,
+          "explanation": "Correct! This setting uses a low ISO for maximum image quality, a narrow aperture (f/11) to keep the entire landscape in sharp focus (deep depth of field), and a moderately fast shutter speed (1/250s) to avoid motion blur — ideal for bright outdoor scenes."
         },
         {
           "scene": "Night street (handheld)",
@@ -60,8 +60,8 @@
             "ISO 3200 | f/2.0 | 1/30s",
             "ISO 800  | f/5.6 | 1/125s"
           ],
-          "correct": 0,
-          "explanation": "Perfect! High ISO and slower shutter help with handheld night shots"
+          "correct": 1,
+          "explanation": "Correct! In low-light conditions, this combination provides a high ISO to brighten the image, a wide aperture (f/2.0) to gather more light, and a shutter speed (1/30s) that's just fast enough for handheld shooting without blur — making it the most practical choice at night."
         }
       ]
     }
