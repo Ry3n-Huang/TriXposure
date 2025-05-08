@@ -132,23 +132,38 @@ def process_answer(q_num, form):
 
     elif q_num == 2:  # Matching Question
         user_answers = []
-        feedback = []
-        score_increment = 0
-        for i, sub_q in enumerate(QUESTIONS[2]['subquestions']):
-            user_answer = form.get(f'subq_{i}')
-            user_answers.append(user_answer)
-            correct = False
-            if user_answer is not None:
-                correct = int(user_answer) == sub_q['correct']
-                if correct:
-                    score_increment += 1
+        feedback     = []
+        score_inc    = 0
+
+        for i, sub_q in enumerate(QUESTIONS[2]["subquestions"]):
+            raw = form.get(f"subq_{i}")          # radio value or None
+            if raw is None:                      # user skipped
+                user_answers.append(None)
+                feedback.append({
+                    "correct": False,
+                    "user_answer": None,
+                    "message": "Please choose an option.",
+                    "correct_answer": sub_q["options"][sub_q["correct"]]["text"]
+                })
+                continue
+
+            idx         = int(raw)               # index 0-2
+            chosen_opt  = sub_q["options"][idx]
+            correct_opt = sub_q["options"][sub_q["correct"]]["text"]
+            correct     = idx == sub_q["correct"]
+            if correct:
+                score_inc += 1
+
+            user_answers.append(idx)
             feedback.append({
-                'correct': correct,
-                'user_answer': int(user_answer) if user_answer else None,
-                'message': sub_q['explanation'] if correct else "Not quite. Consider the scene requirements."
+                "correct":     correct,
+                "user_answer": idx,
+                "message":     chosen_opt["feedback"],   # ← comes straight from JSON
+                "correct_answer": correct_opt
             })
-        session['answers'][2] = user_answers
-        session['scores'][2] = score_increment
+
+        session["answers"][2] = user_answers
+        session["scores"][2]  = score_inc
 
     if feedback is not None:
         session['feedback'] = feedback
