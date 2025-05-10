@@ -2,7 +2,7 @@
 
 **Learn the exposure triangle the fast, interactive way.**
 
-TriXposure is a Flask web‑app that teaches ISO, Shutter‑Speed and Aperture through short lessons and an auto‑graded quiz wiht 3 questions testing each section. 
+TriXposure is a Flask web‑app that teaches ISO, Shutter‑Speed and Aperture through short lessons and an auto‑graded quiz with 3 questions testing each section. 
 
 ---
 
