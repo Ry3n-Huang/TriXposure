@@ -69,6 +69,14 @@
     font-size: 2rem;
     text-align: center;
   }
+  .hint-review {
+  position: absolute;
+  bottom: 1rem;
+  right: 4rem;       /* 离 help-btn 保留一点距离 */
+  color: #fff;
+  font-size: 2rem;
+}
+
   </style>
   
 
@@ -414,6 +422,7 @@
 }
 
 
+
   </style>
     <!-- … 现有 style 之后 … -->
     <style>
@@ -438,6 +447,26 @@
         font-size: 2rem;
         cursor: pointer;
       }
+            /* help-button in bottom right */
+      #help-btn {
+        position: fixed;
+        bottom: 1rem;
+        right: 1rem;
+        width: 3rem;
+        height: 3rem;
+        border: none;
+        border-radius: 0.5rem;
+        background: rgba(0,0,0,0.6);
+        color: #fff;
+        font-size: 1.5rem;
+        line-height: 1;
+        cursor: pointer;
+        z-index: 20;
+      }
+      #help-btn:hover {
+        background: rgba(0,0,0,0.8);
+      }
+
     </style>
   
 
@@ -471,15 +500,17 @@
 
 <body>
 
-  {% if show_hint %}
-  <div id="hint-overlay">
-    <div class="hint-left">1. ◀  “Previous” button on the left</div>
-    <div class="hint-right">1. ▶ “Next” button on the right.</div>
-    <div class="hint-bottom">3. ▼ Don’t forget to explore each scene!</div>
-    <div class="hint-instruction">2. Click images to enlarge</div>
-    <button id="hint-close">Got it!</button>
-  </div>
-  {% endif %}
+<!-- 始终渲染，只在 show_hint 为假时隐藏 -->
+<div id="hint-overlay" {% if not show_hint %}style="display:none;"{% endif %}>
+  <div class="hint-left">1. ◀  “Previous” button on the left</div>
+  <div class="hint-right">2. ▶  “Next” button on the right</div>
+  <div class="hint-bottom">3. ▼  Don’t forget to explore each scene!</div>
+  <div class="hint-instruction">4. Click images to enlarge</div>
+  <div class="hint-review">5. Click the “?” button at bottom-right to review hints</div>
+  <button id="hint-close">Got it!</button>
+</div>
+
+  
 
     <!-- 下面就是你原来的 navbar / #root / #content … -->
   
@@ -504,6 +535,8 @@
     {% block content %}{% endblock %}
     
   </div>
+
+  <button id="help-btn" aria-label="Show hints">?</button>
   {% block nav_buttons %}{% endblock %}
 
   <!-- Navbar slider JS -->
@@ -621,10 +654,16 @@
     </script>
     
     <script>
-      document.getElementById('hint-close').addEventListener('click', () => {
-        document.getElementById('hint-overlay').remove();
+      document.addEventListener('DOMContentLoaded', () => {
+        const overlay = document.getElementById('hint-overlay');
+        document.getElementById('hint-close')
+          .addEventListener('click', () => overlay.style.display = 'none');
+        document.getElementById('help-btn')
+          .addEventListener('click', () => overlay.style.display = 'flex');
       });
-    </script>
+      </script>
+      
+    
   
 </body>
 </html>
