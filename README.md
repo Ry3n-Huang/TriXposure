@@ -4,9 +4,9 @@
 
 TriXposure is a Flask web‑app that teaches ISO, Shutter‑Speed and Aperture through short lessons and an auto‑graded quiz with 3 questions testing each section. 
 
----
 
 ## Project Layout
+```text
 TriXposure/
 ├── app.py                 # Flask entry‑point (runs both API and server‑side rendering)
 │
@@ -40,6 +40,7 @@ TriXposure/
 ├── node_modules/          # (auto‑generated) JS dependencies
 │
 └── README.md
+```
 
 ## Requirements
 
@@ -70,13 +71,3 @@ $ python app.py   # visits http://127.0.0.1:5000/
 * **Maximize** your browser window—some layouts may not render correctly on very small or mobile screens.
 * Safari’s autoplay restrictions can block the looping hero video on the home page, leaving only a static background.
 
-
-## ✨  Front‑end assets (optional build)
-The Aurora background and a few UI flourishes are already compiled and placed under `static/react/assets`. If you tweak those React/Tailwind sources:
-
-```bash
-cd static/react
-npm install          # one‑time
-npm run dev          # hot‑reload dev server
-npm run build        # output -> static/react/assets
-```
