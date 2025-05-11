@@ -1,0 +1,69 @@
+{# templates/aperture.html #}
+{% extends 'base.html' %}
+
+{% block title %}Aperture – Depth and Light in One Setting{% endblock %}
+
+{% block extra_head %}
+  {# 若本页需要额外的 CSS/JS，可放在这里 #}
+{% endblock %}
+
+{% block content %}
+  <h1>Aperture – Depth and Light in One Setting</h1>
+  <p class="subtitle">
+    Aperture controls the size of the opening in your lens, affecting:
+  </p>
+  <div class="aperture-image">
+    <a
+      href="#"
+      class="modal-trigger"
+      data-img-url="{{ url_for('static', filename='images/depth of field.png') }}"
+      title="点击查看原图"
+    >
+      <img
+        src="{{ url_for('static', filename='images/depth of field.png') }}"
+        alt="ss 示意图"
+        style="width: 600px; height: auto;"
+      >
+    </a>
+  </div>
+  <div class="bullets">
+    <ul>
+      <li>A wider aperture (like f/1.8) lets in more light.</li>
+      <li>Smaller aperture (like f/16) reduces light.</li>
+    </ul>
+    <ul>
+      <li>Wider aperture = shallow depth of field (portraits).</li>
+      <li>Smaller aperture = greater depth of field (landscapes).</li>
+    </ul>
+  </div>
+  <div style="text-align: center; max-width: 800px; margin: 0 auto;">
+    <p class="subtitle">
+      Click on a scene to see how Aperture affects your photo:
+    </p>
+  </div>
+  
+  <!-- 跳转链接 -->
+<div style="text-align:center; margin-top:1rem;">
+  <a href="#" class="modal-trigger btn-action" data-img-url="{{ url_for('static', filename='images/aperture.jpg') }}">
+    Portraits
+  </a>
+
+</div>
+
+<!-- Modal 结构 -->
+<div id="imageModal" class="modal-overlay">
+  <img src="" alt="" class="modal-content">
+</div>
+
+{% endblock %}
+
+{% block nav_buttons %}
+  <a href="{{ url_for('shutter_speed_page') }}" class="side-nav side-nav-left">
+    <span class="arrow">&lt;</span>
+  </a>
+  <a href="{{ url_for('quiz_home') }}" class="side-nav side-nav-right">
+    <span class="arrow">&gt;</span>
+  </a>
+{% endblock %}
+
+

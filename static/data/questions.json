@@ -1,0 +1,94 @@
+[
+    {
+      "type": "iso",
+      "images": ["iso_darker.png", "iso_brighter.png"],
+      "correct": 1,
+      "feedback": {
+        "correct": "✔ Correct! Higher ISO = brighter photo.",
+        "incorrect": "✕ Oops! Lower ISO results in a darker image."
+      }
+    },
+    {
+      "type": "shutter",
+      "image": "shutter_speed.png",
+      "options": [
+        {
+          "value": "0",
+          "text": "1/2000s",
+          "feedback": "✗ Oops! Too fast to capture light trails.<br> A shutter speed like 1/2000s is extremely fast — it would freeze any motion completely. You would see distinct car shapes or headlights, not long continuous light streaks."
+        },
+        {
+          "value": "1",
+          "text": "1/60s",
+          "feedback": "✗ Oops! Still too fast for light trails.<br> While 1/60s is slower than 1/2000s, it's still not long enough to create smooth, extended light trails. You might get a bit of blur, but not the dramatic streaks seen in the photo."
+        },
+        {
+          "value": "2",
+          "text": "2s",
+          "feedback": "✔ Correct!<br> A shutter speed of 2 seconds allows the camera to capture moving car lights over time, resulting in continuous light trails. This is a common technique in night photography."
+        }
+      ],
+      "correct": 2
+    },
+    {
+      "type": "matching",
+      "subquestions": [
+        {
+          "scene": "Portrait (shallow background)",
+          "options": [
+            {
+              "text": "ISO 3200 | f/2.0 | 1/30 s",
+              "feedback": "✗ Oops! ISO 3200 adds visible noise and 1/30 s is shaky hand-held, even though f/2.0 is bright."
+            },
+            {
+              "text": "ISO 100 | f/1.8 | 1/250 s",
+              "feedback": "✔ Correct! ISO 100 keeps the image clean, f/1.8 gives creamy bokeh, and 1/250 s freezes a portrait."
+            },
+            {
+              "text": "ISO 800 | f/5.6 | 1/125 s",
+              "feedback": "✗ Not quite... f/5.6 produces deep depth-of-field so the background stays sharp; ISO 800 also raises noise unnecessarily."
+            }
+          ],
+          "correct": 1
+        },
+        {
+          "scene": "Landscape (full focus)",
+          "options": [
+            {
+              "text": "ISO 100 | f/11 | 1/250 s",
+              "feedback": "✔ Correct! A narrow f/11 aperture keeps everything sharp, and bright daylight lets you stay at ISO 100. This setting uses a low ISO for maximum image quality, a narrow aperture (f/11) to keep the entire landscape in sharp focus (deep depth of field), and a moderately fast shutter speed (1/250s) to avoid motion blur — ideal for bright outdoor scenes."
+            },
+            {
+              "text": "ISO 800 | f/4.0 | 1/1000 s",
+              "feedback": "✗ Not quite... ISO 800 lowers image quality, f/4.0 won’t give edge-to-edge sharpness, and 1/1000 s wastes light."
+            },
+            {
+              "text": "ISO 200 | f/5.6 | 1/500 s",
+              "feedback": "✗ Oops! Better, but f/5.6 is still too wide for maximum depth-of-field; some of the scene may be soft."
+            }
+          ],
+          "correct": 0
+        },
+        {
+          "scene": "Night street (hand-held)",
+          "options": [
+            {
+              "text": "ISO 100 | f/11 | 2 s",
+              "feedback": "✗ Not quite... A 2-second exposure is impossible to hand-hold and f/11 lets in very little light."
+            },
+            {
+              "text": "ISO 3200 | f/2.0 | 1/30 s",
+              "feedback": "✔ Correct! High ISO plus a wide aperture gathers enough light, and 1/30 s is just hand-holdable. In low-light conditions, this combination provides a high ISO to brighten the image, a wide aperture (f/2.0) to gather more light, and a shutter speed (1/30s) that's just fast enough for handheld shooting without blur — making it the most practical choice at night."
+            },
+            {
+              "text": "ISO 800 | f/5.6 | 1/2 s",
+              "feedback": "✗ Oops! 1/2 s will blur a busy street and f/5.6 is too narrow; ISO 800 is still too low for night scenes."
+            }
+          ],
+          "correct": 1
+        }
+      ]
+    }
+    
+  ]
+  

@@ -1,0 +1,61 @@
+{% extends "quiz_base.html" %}
+{% block content %}
+
+  <div class="text-center mt-5 mt-4">
+    <div class="current-score mb-2">
+      <i class="fas fa-star"></i> Current Score: {{ score }}/5
+    </div>
+    <h3 class="fw-bold mb-0">Exposure Triangle Matching Quiz</h3>
+  </div>
+
+  <form method="POST" action="{{ url_for('quiz', q_num=3) }}">
+    {% for sub_q in question.subquestions %}
+      {% set idx = loop.index0 %}
+      <div class="subquestion-card mt-4">
+        <h5 class="subquestion-title">{{ sub_q.scene }}</h5>
+        <div class="options-list">
+          {% for option in sub_q.options %}
+            {% set opt_text = option.text if option is mapping else option %}
+            <label class="option-list-item">
+              <input 
+                type="radio" 
+                name="subq_{{ idx }}" 
+                value="{{ loop.index0 }}" 
+                required
+                {% if feedback and feedback[idx].user_answer == loop.index0 %}checked{% endif %}
+              >
+              <span class="option-text">{{ opt_text }}</span>
+            </label>
+          {% endfor %}
+        </div>
+
+        {% if feedback %}
+          <div class="feedback-card {% if feedback[idx].correct %}correct{% else %}incorrect{% endif %}">
+            <p class="feedback-message">{{ feedback[idx].message|safe }}</p>
+
+            {% if not feedback[idx].correct %}
+              <p class="correct-answer">
+                Correct answer: <strong>{{ feedback[idx].correct_answer }}</strong>
+              </p>
+            {% endif %}
+          </div>
+        {% endif %}
+      </div>
+    {% endfor %}
+
+    {% if feedback %}
+      <div class="text-center mt-4">
+        <a href="{{ url_for('quiz', q_num=q_num+1) }}" class="btn-action">
+          Next <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+    {% else %}
+      <div class="text-center mt-4">
+        <button type="submit" class="btn-action">
+          <i class="fas fa-check"></i> Submit Answers
+        </button>
+      </div>
+    {% endif %}
+  </form>
+
+{% endblock %}

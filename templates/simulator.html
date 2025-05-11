@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block title %}Simulator{% endblock %}
+
+{% block extra_head %}
+  <style>
+    /* Simulator-specific controls styling */
+    .simulator {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      margin-bottom: 2rem;
+    }
+    .viewfinder {
+      width: 400px;
+      max-width: 100%;
+      border: 8px solid #000;
+      overflow: hidden;
+    }
+    .viewfinder img {
+      width: 100%;
+      display: block;
+      filter: brightness(1) blur(0px);
+    }
+    .controls {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      font-family: 'Roboto', monospace;
+      font-size: 1rem;
+      text-align: left;
+    }
+    .control {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .control label {
+      width: 80px;
+      font-weight: 500;
+    }
+    .control input[type=range] {
+      flex: 1;
+    }
+    .control span.value {
+      width: 60px;
+      text-align: left;
+    }
+  </style>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const isoVals = [50,100,200,400,800,1600,3200,6400,12800,25600];
+      const ssVals  = ['1/1000s','1/500s','1/250s','1/125s','1/60s','1/30s','1/15s','1/8s','1/4s','1/2s'];
+      const apVals  = ['f/1.2','f/2.8','f/4','f/8','f/16'];
+
+      const isoS = document.getElementById('iso-slider');
+      const ssS  = document.getElementById('ss-slider');
+      const apS  = document.getElementById('ap-slider');
+      const isoV = document.getElementById('iso-value');
+      const ssV  = document.getElementById('ss-value');
+      const apV  = document.getElementById('ap-value');
+      const img  = document.getElementById('sim-image');
+
+      function update() {
+        const i = +isoS.value, s = +ssS.value, a = +apS.value;
+        isoV.textContent = isoVals[i];
+        ssV.textContent  = ssVals[s];
+        apV.textContent  = apVals[a];
+        img.src = `/static/images/iso_${i+1}.jpg`;
+        const brightness = 1 + (s/ (ssVals.length-1)) * 1.5;
+        const blur = (a/ (apVals.length-1)) * 5;
+        img.style.filter = `brightness(${brightness}) blur(${blur}px)`;
+      }
+
+      [isoS, ssS, apS].forEach(el => el.addEventListener('input', update));
+      update();
+    });
+  </script>
+{% endblock %}
+
+{% block content %}
+  <h1>Simulator</h1>
+  <div class="simulator">
+    <div class="viewfinder">
+      <img id="sim-image" src="{{ url_for('static', filename='images/iso_1.jpg') }}" alt="Simulation view">
+    </div>
+    <div class="controls">
+      <div class="control">
+        <label for="iso-slider">ISO</label>
+        <input id="iso-slider" type="range" min="0" max="9" value="0">
+        <span class="value" id="iso-value">50</span>
+      </div>
+      <div class="control">
+        <label for="ss-slider">S.S.</label>
+        <input id="ss-slider" type="range" min="0" max="9" value="0">
+        <span class="value" id="ss-value">1/1000s</span>
+      </div>
+      <div class="control">
+        <label for="ap-slider">Aperture</label>
+        <input id="ap-slider" type="range" min="0" max="4" value="0">
+        <span class="value" id="ap-value">f/1.2</span>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block nav_buttons %}
+  <a href="{{ url_for('aperture_page') }}" class="side-nav side-nav-left">
+    <span class="arrow">&lt;</span>
+  </a>
+  <a href="{{ url_for('quiz_home') }}" class="side-nav side-nav-right">
+    <span class="arrow">&gt;</span>
+  </a>
+{% endblock %}
